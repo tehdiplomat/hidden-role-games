@@ -1,1 +1,0 @@
-SECRET_KEY = 'sbtu=9i^=8zp_(dt+0&tlm528v^wquea-4l3a&+3^w-*q(dxt&'
