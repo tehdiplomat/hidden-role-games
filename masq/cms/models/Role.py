@@ -5,12 +5,16 @@ from rest_framework import serializers
 
 from cms.models.Base import BaseModel
 from cms.models.Game import Game
+from cms.models.Affiliation import Affiliation
 
 class Role(BaseModel):
 	name = models.CharField(max_length=32, default='Unnamed Role')
 	game = models.ForeignKey(Game, null=False)
-	affiliation = models.CharField(max_length=64, default='Unaffiliated')
+	affiliation = models.ForeignKey(Affiliation, null=True, blank=True)
 	text = models.TextField(blank=True)
+	generic = models.BooleanField(default=False)
+	maxPerGame = models.PositiveSmallIntegerField(default=0)
+	#relatedRoles =
 
 	def __unicode__(self):
 		return u'%s' % (self.name)
