@@ -28,7 +28,7 @@ class GameSessionAdmin(admin.ModelAdmin):
 # For serializing with django_rest_framework
 class GameSessionSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = Game
+		model = GameSession
 		fields = ('id', 'name', 'game', 'active')
 
-Game.serializer = GameSessionSerializer
+GameSession.serializer = GameSessionSerializer
