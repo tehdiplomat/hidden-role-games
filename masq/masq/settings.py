@@ -88,6 +88,8 @@ TEMPLATE_DIRS = (
     PROJECT_PATH + 'templates/',
 )
 
+MQ_VERSION = 1
+
 try:
     import local_settings
 except:

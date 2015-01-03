@@ -16,10 +16,10 @@ def join(request):
 		'players': players
 	}, context_instance=RequestContext(request))
 
-def create(request):
+def start(request):
 	games = Game.objects.all()
 
-	return render_to_response('create.html', {
+	return render_to_response('start.html', {
 		'games': games
 	}, context_instance=RequestContext(request))
 

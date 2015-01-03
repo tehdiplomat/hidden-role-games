@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}404 Error{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/error.css{% if ZC_VERSION %}?v={{ ZC_VERSION }}{% endif %}" />
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+	function done() {
+		var c = new BaseController();
+		c.loadData();
+		c.setGenericHandlers();
+	}
+	lab.wait(done);
+</script>
+{% endblock %}
+
+{% block mainArea %}
+<h1 class="pageTitle">
+	Page not found
+</h1>
+<div id="errorContent">
+	The page you requested could not be found.
+</div>
+{% endblock %}

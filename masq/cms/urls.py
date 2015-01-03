@@ -4,7 +4,7 @@ from django.contrib import admin
 urlpatterns = patterns('cms.views',
 	url(r'^$', 'generic.index'),
 
-	url(r'^create$', 'game.create'),
+	url(r'^start$', 'game.start'),
 	url(r'^join$', 'game.join'),
 	url(r'^lobby$', 'game.lobby'),
 	url(r'^play$', 'game.play'),

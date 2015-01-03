@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{% block title %}{% endblock %}</title>
+		<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/site.css{% if MQ_VERSION %}?v={{ MQ_VERSION }}{% endif %}" />
+		{% block styles %}{% endblock %}
+
+		<script type="text/javascript" src="{{ STATIC_URL }}js/lib/json2.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/client/utils/serverInfo.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/client/utils/serverqueue.js"></script>
+		{% if MQ_VERSION %}
+		<script type="text/javascript">
+			var MQ_VERSION = "{{ MQ_VERSION }}";
+		</script>
+		{% endif %}
+		
+		<script type="text/javascript" src="{{ STATIC_URL }}js/requireConfig.js{% if MQ_VERSION %}?v={{ MQ_VERSION }}{% endif %}"></script>
+		<script type="text/javascript" data-main="{{ STATIC_URL }}js/client/controllers/{% block jsModuleName %}fallback{% endblock %}" src="{{ STATIC_URL }}js/lib/require.min.js"></script>
+		
+		{# Here's where analytics call block would go... #}	
+		{% block scripts %}{% endblock %}
+	</head>
+	<body id="{% block body_id %}{% endblock %}">
+		{% csrf_token %}
+		<div id="page" class="full-width">
+			{% block body %}
+			<header id="masthead" class="row full-width">
+				{% block header %}
+					{% block logo %}
+					<div id="logo" class="logo"><img src="{{ STATIC_URL }}img/asooj-icon.png" alt="logo" /></div>
+					{% endblock %}
+					<a class="menu" href="#menu">&#9776;</a>
+				{% endblock %}
+			</header>
+			<div id="mainArea" class="row full-width">
+				{% block mainArea %}
+				<section id="mainSection" class="column">
+				<article>
+					{% block content %}{% endblock %}
+				</article>
+				</section>
+				{% endblock %}
+			{% endblock %}
+			</div>
+			<div id="data" class="hidden">
+				{% block dataBlock %}{% endblock %}
+			</div>
+			<footer id="dialogs" class="row full-width">
+				{% block dialogs %}{% endblock %}
+			</footer>
+		</div>
+	</body>
+</html>

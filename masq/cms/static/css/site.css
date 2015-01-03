@@ -1,0 +1,19 @@
+header {
+	height: 30px
+}
+
+.menu {
+	text-decoration: none;
+	color: orange;
+	position: absolute;
+	right: 5px;
+}
+
+.logo{
+	position: absolute;
+	left: 5px;
+}
+
+body{
+	clear: both;
+}

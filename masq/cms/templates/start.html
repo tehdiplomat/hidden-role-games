@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load queryFilters %}
+{% load basicFilters %}
+{% load basicTags %}
+
+{% block body_id %}Start Game{% endblock %}
+
+{% block title %}Start{% endblock %}
+
+{% block styles %}
+	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/start.css{% if ZC_VERSION %}?v={{ ZC_VERSION }}{% endif %}" />
+{% endblock %}
+
+{% block jsModuleName %}startController{% endblock %}
+
+{% block content %}
+	<h1 class="pageTitle">Start Game</h1>
+
+	<h1>Join Game</h1>
+
+	To join a game, scan the QR Code from the Host of the game. Enter a handle for the session, and a 4 digit pin code (used for reentering the game, in case your browser crashes.)
+
+	To rejoin a game session, select the session, your handle name, and your pin code.
+{% endblock %}
+
+{% block dataBlock %}
+	{% clientMultiData games %}
+{% endblock %}
