@@ -2,9 +2,9 @@ define(["./base"], function(Base) {
 
 	Player = function() {
 		this.name = "";
-		this.sesion = null;
+		this.session = null;
 		this.role = null;
-		this.primary = true;
+		this.hidden = true;
 
 		Base.call(this);
 	};

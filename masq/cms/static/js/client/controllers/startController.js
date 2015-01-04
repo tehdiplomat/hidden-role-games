@@ -19,11 +19,21 @@ require([
 
 	function StartController_setHandlers() {
 		this.setGenericHandlers();
+		this.setGameHandlers();
+	}
+
+	function StartController_setGameHandlers() {
+		$(".hostSession").click(function() {
+			// Test that all the forms are filled out.
+			// Create new gameSession
+			// Move user to lobby
+		});
 	}
 
 
 	StartController.prototype = new BaseController;
 	StartController.prototype.constructor = StartController;
 	StartController.prototype.setHandlers = StartController_setHandlers;
+	StartController.prototype.setGameHandlers = StartController_setGameHandlers;
 	new StartController();
 });

@@ -13,6 +13,7 @@ class Player(BaseModel):
 	role = models.ForeignKey(Role, null=True, blank=True)
 
 	hidden = models.BooleanField(default=True)
+	#pin = models.PositiveSmallIntegerField(default=0)
 
 	
 	def __unicode__(self):

@@ -15,9 +15,22 @@
 {% block jsModuleName %}startController{% endblock %}
 
 {% block content %}
-	<h1 class="pageTitle">Start Game</h1>
+	<h1 class="pageTitle">Start Game Session</h1>
+	
+	Game: <select>
+		<option value="0" name="game">--------</option>
+	{% for game in games %}
+		<option value="{{ game.id }}">{{ game.name }}</option>
+	{% endfor %}
+	</select><br/>
 
-	<h1>Join Game</h1>
+	Session Name: <input type="text" name="name" /><br/>
+
+	<button class="create hostSession">Host Session</button>
+
+	<hr/>
+
+	<h1>Join Game Session</h1>
 
 	To join a game, scan the QR Code from the Host of the game. Enter a handle for the session, and a 4 digit pin code (used for reentering the game, in case your browser crashes.)
 
