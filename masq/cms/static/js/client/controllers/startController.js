@@ -26,6 +26,10 @@ require([
 		$(".hostSession").click(function() {
 			// Test that all the forms are filled out.
 			// Create new gameSession
+			var gs = new GameSession();
+			gs.setGame($(".gameSelect").val());
+			gs.setName($(".sessionName").val());
+			gs.create();
 			// Move user to lobby
 		});
 	}

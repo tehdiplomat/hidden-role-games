@@ -855,7 +855,7 @@ function Utils_currentSemesters(allSemesters, start, end) {
 }
 
 function Utils_testType(obj, type) {
-	if (obj instanceof DataClass) {
+	if (obj instanceof Base) {
 		return obj.getInfo()['className'] == type;
 	} else {
 		return (typeof(obj)=="object" && type in window && $.isFunction(window[type]) && obj instanceof window[type]) || Utils_toType(obj)==type;

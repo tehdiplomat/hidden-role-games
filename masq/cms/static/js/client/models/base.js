@@ -650,10 +650,6 @@ function Base_create(passedOpts){
 			for(var ext in extraParams)
 				obj[ext] = extraParams[ext];
 
-		if (document.socketIO_connID) {
-			obj["connID"] = document.socketIO_connID;
-		}
-
 		//console.log(obj);
 		data = JSON.stringify(obj); //pass as a json string (not as a dictionary, which jQuery would convert to GET-style parameters)
 

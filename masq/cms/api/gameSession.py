@@ -6,7 +6,7 @@ class GameSessionList(generics.ListCreateAPIView):
 	queryset = GameSession.objects.all()
 	serializer_class = GameSessionSerializer
 	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-	filter_fields = ( 'online', )
+	filter_fields = ( 'active', )
 
 
 class GameSessionDetail(generics.RetrieveUpdateDestroyAPIView):

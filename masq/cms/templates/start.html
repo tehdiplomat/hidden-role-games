@@ -17,14 +17,16 @@
 {% block content %}
 	<h1 class="pageTitle">Start Game Session</h1>
 	
-	Game: <select>
-		<option value="0" name="game">--------</option>
+	Game: <select class="gameSelect">
+		<option value="0">--------</option>
 	{% for game in games %}
 		<option value="{{ game.id }}">{{ game.name }}</option>
 	{% endfor %}
 	</select><br/>
 
-	Session Name: <input type="text" name="name" /><br/>
+	Session Name: <input type="text" class="sessionName" maxlength="32" /><br/>
+
+	Handle: <input type="text" class="playerName" maxlength="32" /><br/>
 
 	<button class="create hostSession">Host Session</button>
 
