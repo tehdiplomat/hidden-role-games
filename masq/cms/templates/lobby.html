@@ -1,1 +1,39 @@
-LOBBY
+{% extends "base.html" %}
+
+{% load queryFilters %}
+{% load basicFilters %}
+{% load basicTags %}
+
+{% block body_id %}Game Lobby{% endblock %}
+
+{% block title %}Lobby{% endblock %}
+
+{% block styles %}
+	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/start.css{% if ZC_VERSION %}?v={{ ZC_VERSION }}{% endif %}" />
+{% endblock %}
+
+{% block jsModuleName %}lobbyController{% endblock %}
+
+{% block scripts %}
+	<script>
+		var local = {{ player.id }};
+	</script>
+{% endblock %}
+
+{% block content %}
+	<h1 class="pageTitle">Game Session Lobby</h1>
+	
+	Made it to the lobby!!!11
+
+	<div class="playerPanel panel">
+		Name: <input type="text" class="playerName" /><br/>
+		Pin: <input type="text" class="playerPin" /><br/>
+		Host: <input type="checkbox" class="playerHost" disabled /><br/>
+		<button class="editPlayer">Save</button>
+	</div>
+{% endblock %}
+
+{% block dataBlock %}
+	{% clientMultiData games gameSessions players affiliations roles %}
+
+{% endblock %}

@@ -2,9 +2,11 @@ define(["./base"], function(Base) {
 
 	Player = function() {
 		this.name = "";
-		this.session = null;
-		this.role = null;
+		this.sessionId = null;
+		this.roleId = null;
 		this.hidden = true;
+		this.pin = 1234;
+		this.host = false;
 
 		Base.call(this);
 	};
@@ -25,6 +27,8 @@ define(["./base"], function(Base) {
 		"session": "FK-GameSession",
 		"role": "FK-Role",
 		"hidden": "bool",
+		"host": "bool",
+		"pin": "int"
 	};
 	Utils_addGettersAndSetters(Player, fields);
 	return Player;

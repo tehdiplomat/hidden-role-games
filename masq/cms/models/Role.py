@@ -25,13 +25,13 @@ class Role(BaseModel):
 		ordering = ['name']
 
 class RoleAdmin(admin.ModelAdmin):
-	list_display = ['id', 'name', 'game', 'affiliation']
+	list_display = ['id', 'name', 'game', 'affiliation', 'generic']
 	list_filter = ['game']
 
 # For serializing with django_rest_framework
 class RoleSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Role
-		fields = ('id', 'name', 'game', 'affiliation', 'text')
+		fields = ('id', 'name', 'game', 'affiliation', 'generic', 'text')
 
 Role.serializer = RoleSerializer

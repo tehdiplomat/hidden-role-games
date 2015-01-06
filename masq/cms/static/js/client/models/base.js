@@ -481,12 +481,6 @@ function Base_update(passedOpts){
 		copy.failed = true;
 		copy.response = null;
 		ServerQueue.pushCall("put [" + this.getInfo()["className"] + "] ById");
-		//console.log(data);
-		// Don't need ID in data, since the URL now has the ID
-		//data["id"] = id;
-		if (document.socketIO_connID) {
-			data["connID"] = document.socketIO_connID;
-		}
 
 		for(var ext in extraParams) {
 			data[ext] = extraParams[ext];

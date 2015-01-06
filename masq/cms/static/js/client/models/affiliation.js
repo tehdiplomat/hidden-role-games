@@ -2,7 +2,7 @@ define(["./base"], function(Base) {
 
 	Affiliation = function() {
 		this.name = "";
-		this.game = null;
+		this.gameId = null;
 		this.text = "";
 		this.primary = true;
 

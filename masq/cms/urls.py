@@ -6,7 +6,7 @@ urlpatterns = patterns('cms.views',
 
 	url(r'^start$', 'game.start'),
 	url(r'^join$', 'game.join'),
-	url(r'^lobby$', 'game.lobby'),
+	url(r'^lobby/(?P<id>[0-9]+)/$', 'game.lobby'),
 	url(r'^play$', 'game.play'),
 
 	#url(r'^command$', 'command.command'),

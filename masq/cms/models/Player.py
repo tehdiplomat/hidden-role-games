@@ -13,7 +13,8 @@ class Player(BaseModel):
 	role = models.ForeignKey(Role, null=True, blank=True)
 
 	hidden = models.BooleanField(default=True)
-	#pin = models.PositiveSmallIntegerField(default=0)
+	pin = models.PositiveSmallIntegerField(default=1234)
+	host = models.BooleanField(default=True)
 
 	
 	def __unicode__(self):
@@ -32,6 +33,6 @@ class PlayerAdmin(admin.ModelAdmin):
 class PlayerSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Player
-		fields = ('id', 'name', 'session', 'role', 'hidden')
+		fields = ('id', 'name', 'session', 'role', 'hidden', 'pin', 'host')
 
 Player.serializer = PlayerSerializer

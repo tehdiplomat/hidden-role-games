@@ -2,7 +2,7 @@ define(["./base"], function(Base) {
 
 	GameSession = function() {
 		this.name = "";
-		this.game = null;
+		this.gameId = null;
 		this.active = true;
 
 		Base.call(this);

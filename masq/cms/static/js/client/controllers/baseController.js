@@ -11,7 +11,6 @@ BaseController = function(){
 
 function BaseController_genericOnLoad(debug){
 	this.loadData(debug);
-	this.socketHandlerSet = false;
 }
 
 function BaseController_loadData(debug){

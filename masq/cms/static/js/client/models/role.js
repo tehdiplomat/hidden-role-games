@@ -2,7 +2,7 @@ define(["./base"], function(Base) {
 
 	Role = function() {
 		this.name = "";
-		this.game = null;
+		this.gameId = null;
 		this.affiliation = null;
 		this.text = "";
 		this.generic = true;
