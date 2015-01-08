@@ -1,5 +1,6 @@
 require([
 		"controllers/baseController",
+		"qrcode",
 
 		//models
 		"models/game",
@@ -25,6 +26,7 @@ require([
 		if (!this.initiateLocalPlayer()) 
 			return;
 		this.setGameHandlers();
+		this.setInviteHandler();
 	}
 
 	function LobbyController_initiateLocalPlayer() {
@@ -68,11 +70,21 @@ require([
 		});
 	}
 
+	function LobbyController_setInviteHandler() {
+		var copy = this;
+		this.inviteQR = new QRCode("inviteQR", {
+			text : inviteURL,
+			width : 128,
+			height : 128
+		});
+	}
+
 
 	LobbyController.prototype = new BaseController;
 	LobbyController.prototype.constructor = LobbyController;
 	LobbyController.prototype.setHandlers = LobbyController_setHandlers;
 	LobbyController.prototype.initiateLocalPlayer = LobbyController_initiateLocalPlayer;
 	LobbyController.prototype.setGameHandlers = LobbyController_setGameHandlers;
+	LobbyController.prototype.setInviteHandler = LobbyController_setInviteHandler;
 	new LobbyController();
 });

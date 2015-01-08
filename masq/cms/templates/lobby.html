@@ -17,6 +17,7 @@
 {% block scripts %}
 	<script>
 		var local = {{ player.id }};
+		var inviteURL = "{{ inviteURL }}";
 	</script>
 {% endblock %}
 
@@ -30,6 +31,12 @@
 		Pin: <input type="text" class="playerPin" /><br/>
 		Host: <input type="checkbox" class="playerHost" disabled /><br/>
 		<button class="editPlayer">Save</button>
+	</div>
+
+	<div class="invitePanel panel">
+		Have other players scan this QR code to join the game.
+		<div class="qrCode" id="inviteQR">
+		</div>
 	</div>
 {% endblock %}
 

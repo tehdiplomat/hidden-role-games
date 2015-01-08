@@ -1,6 +1,7 @@
 require = {
 	paths: {
 		"jquery": ServerInfo.generateStaticPathFor("js/lib/jquery/jquery-2.1.3.min"),
+		"qrcode": ServerInfo.generateStaticPathFor("js/lib/qrcode/qrcode"),
 
 		"models": ServerInfo.generateStaticPathFor("js/client/models"),
 		"modules": ServerInfo.generateStaticPathFor("js/client/modules"),

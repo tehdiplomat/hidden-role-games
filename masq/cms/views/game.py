@@ -2,6 +2,7 @@ from django.http import Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 from cms.models import GameSession, Game, Player, Affiliation, Role
 
 
@@ -60,6 +61,7 @@ def lobby(request, id=None):
 		player = None
 
 	players = Player.objects.filter(session=session)
+	inviteURL = '%smasq/lobby/%s/?init=join' % (settings.SITE_URL, id)
 
 	return render_to_response('lobby.html', {
 		'games': game,
@@ -67,7 +69,8 @@ def lobby(request, id=None):
 		'player': player,
 		'players': players,
 		'affiliations': affiliations,
-		'roles': roles
+		'roles': roles,
+		'inviteURL': inviteURL
 	}, context_instance=RequestContext(request))
 
 
