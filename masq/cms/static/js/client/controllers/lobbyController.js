@@ -1,6 +1,7 @@
 require([
 		"controllers/baseController",
 		"qrcode",
+		
 
 		//models
 		"models/game",
@@ -60,6 +61,7 @@ require([
 			copy.player.setName($(".playerName").val());
 			copy.player.setPin($(".playerPin").val());
 			copy.player.update({callback: function() {
+				console.log(copy.player.response);
 				alert("Updated!");
 			}, changedFields: fields});
 		});

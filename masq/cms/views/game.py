@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
@@ -30,7 +30,10 @@ def lobby(request, id=None):
 	session = GameSession.objects.filter(id=id)
 
 	if not session.count():
-		return Http404
+		resp = HttpResponse()
+		resp.status_code = 400
+		resp.content = 'Game Session for %s not found' % id
+		return resp
 
 	game = Game.objects.filter(gamesession__in=session)
 	affiliations = Affiliation.objects.filter(game=game)
@@ -46,6 +49,7 @@ def lobby(request, id=None):
 	elif init == 'join':
 		player = Player()
 		player.session = session[0]
+		player.host = False
 		player.save()
 
 	elif init == 'rejoin':
@@ -54,7 +58,10 @@ def lobby(request, id=None):
 		try:
 			player = Player.objects.get(name=name, pin=pin, session=session[0])
 		except:
-			return Http404
+			resp = HttpResponse()
+			resp.status_code = 400
+			resp.content = 'Incorrect credentials provided for Player %s in Session %s' % (name, id)
+			return resp
 
 	else:
 		# No player passed in, this will either error out or load from localstorage
