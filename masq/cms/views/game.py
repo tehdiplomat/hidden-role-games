@@ -21,9 +21,11 @@ def join(request):
 
 def start(request):
 	games = Game.objects.all()
+	sessions = GameSession.objects.filter(active=True)
 
 	return render_to_response('start.html', {
-		'games': games
+		'games': games,
+		'gameSessions': sessions
 	}, context_instance=RequestContext(request))
 
 def lobby(request, id=None):
@@ -65,6 +67,7 @@ def lobby(request, id=None):
 
 	else:
 		# No player passed in, this will either error out or load from localstorage
+		# Watcher? Ask user if they want to try to log in with localstorage user?
 		player = None
 
 	players = Player.objects.filter(session=session)

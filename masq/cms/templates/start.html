@@ -36,9 +36,32 @@
 
 	To join a game, scan the QR Code from the Host of the game. Enter a handle for the session, and a 4 digit pin code (used for reentering the game, in case your browser crashes.)
 
-	To rejoin a game session, select the session, your handle name, and your pin code.
+	<hr/>
+
+	<h1>Rejoin Game Session</h1>
+
+	To rejoin a game session you've accidentally disconnected from, select the session, your handle name, and your pin code.<br/>
+
+	<button class="loadPlayer">Load ID From Device</button><br/>
+
+	Session: <select class="sessionSelect">
+	<option value="0">--------</option>
+	{% for session in gameSessions %}
+		<option value="{{ session.id }}">{{ session.name }}</option>
+	{% endfor %}
+	</select> 
+
+	Game: <input type="text" class="gameRejoin" maxlength="32" disabled /><br/>
+
+	Handle: <input type="text" class="handleRejoin" maxlength="32" /><br/>
+
+	Pin: <input type="text" class="pinRejoin" maxlength="32" /><br/>
+
+	<button class="rejoinSession">Rejoin Session</button>
+
+
 {% endblock %}
 
 {% block dataBlock %}
-	{% clientMultiData games %}
+	{% clientMultiData games gameSessions %}
 {% endblock %}

@@ -3,7 +3,8 @@ require([
 
 		//models
 		"models/game",
-		"models/gameSession"
+		"models/gameSession",
+		"models/player"
 	],
 	function(BaseController) {
 
@@ -23,6 +24,7 @@ require([
 	}
 
 	function StartController_setGameHandlers() {
+		var copy = this;
 		$(".hostSession").click(function() {
 			// Test that all the forms are filled out.
 			// Create new gameSession
@@ -34,6 +36,38 @@ require([
 				var href = window.location.pathname.replace('start', 'lobby') + '/' + gs.getId() + '/' + '?init=host';
 				window.location.href = href;		
 			}});
+		});
+
+		$(".sessionSelect").change(function() {
+			try{
+				var gs = copy.gameSessions[$(this).val()];
+				$(".gameRejoin").val(copy.games[gs.getGameId()].getName());
+			} catch(Exception) {
+				$(".gameRejoin").val("");
+			}
+		});
+
+		$(".rejoinSession").click(function() {
+
+		});
+
+		if ('localId' in window.localStorage) {
+			$(".loadPlayer").show();
+		} else {
+			$(".loadPlayer").hide();
+		}
+
+		$(".loadPlayer").click(function() {
+			var pl = new Player();
+			pl.getById({id: window.localStorage['localId'], callback: function() {
+				if (pl.failed) {
+					console.log(pl.response);
+				} else {
+					$(".sessionSelect").val(pl.getSessionId());
+					$(".handleRejoin").val(pl.getName());
+					//$(".pinRejoin").val(pl.getPin());
+				}
+			} });
 		});
 	}
 
