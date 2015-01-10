@@ -48,7 +48,13 @@ require([
 		});
 
 		$(".rejoinSession").click(function() {
+			var sessionId = $(".sessionSelect").val();
+			if (sessionId != 0) {
+				var getParams = "&name=" + $(".handleRejoin").val() + "&pin=" + $(".pinRejoin").val();
 
+				var href = window.location.pathname.replace('start', 'lobby') + '/' + sessionId + '/' + '?init=rejoin'  + getParams;
+				window.location.href = href;
+			}
 		});
 
 		if ('localId' in window.localStorage) {
@@ -64,6 +70,7 @@ require([
 					console.log(pl.response);
 				} else {
 					$(".sessionSelect").val(pl.getSessionId());
+					$(".sessionSelect").change();
 					$(".handleRejoin").val(pl.getName());
 					//$(".pinRejoin").val(pl.getPin());
 				}
