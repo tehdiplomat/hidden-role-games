@@ -14,7 +14,7 @@ class Player(BaseModel):
 
 	hidden = models.BooleanField(default=True)
 	pin = models.PositiveSmallIntegerField(default=1234)
-	host = models.BooleanField(default=True)
+	host = models.BooleanField(default=False)
 
 	
 	def __unicode__(self):

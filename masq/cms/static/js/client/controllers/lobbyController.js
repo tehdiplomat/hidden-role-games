@@ -26,6 +26,7 @@ require([
 		this.setGenericHandlers();
 		if (!this.initiateLocalPlayer()) 
 			return;
+		this.genericSubscribePusher("player" + local);
 		this.setGameHandlers();
 		this.setInviteHandler();
 	}
@@ -61,14 +62,18 @@ require([
 			copy.player.setName($(".playerName").val());
 			copy.player.setPin($(".playerPin").val());
 			copy.player.update({callback: function() {
-				console.log(copy.player.response);
-				alert("Updated!");
+				if (copy.player.failed) {
+					console.log(copy.player.response);
+					alert("Failed to update your player change")
+				} else {
+					alert("Updated!");
+				}
 			}, changedFields: fields});
 		});
 
 
 		$(".startSession").click(function() {
-			
+			// Assign the roles 
 		});
 	}
 

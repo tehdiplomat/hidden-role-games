@@ -1,6 +1,7 @@
 define([
 	"jquery",
-	"utils"],
+	"utils",
+	"lib/pusher.min"],
 	function($, utils) {
 
 BaseController = function(){
@@ -96,10 +97,23 @@ function BaseController_setGenericHandlers(parent) {
 	});
 }
 
+function BaseController_genericSubscribePusher(channel) {
+	var copy = this;
+	this.pusher = new Pusher('d00c939a712a8d7290e6');
+	this.pusher.connection.bind('connected', function() {
+		copy.socketId = copy.pusher.connection.socket_id;
+	});
+	this.channel = this.pusher.subscribe(channel);
+	//this.channel.bind('my_event', function(data) {
+	//	alert(data.message);
+	//});
+}
+
 BaseController.prototype.constructor = BaseController;
 BaseController.prototype.loadData = BaseController_loadData;
 BaseController.prototype.genericOnLoad = BaseController_genericOnLoad;
 BaseController.prototype.setGenericHandlers = BaseController_setGenericHandlers;
+BaseController.prototype.genericSubscribePusher = BaseController_genericSubscribePusher;
 
 return BaseController;
 });

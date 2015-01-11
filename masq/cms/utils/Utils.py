@@ -13,8 +13,8 @@ from django.db.models import Q
 
 from datetime import datetime
 from operator import __or__ as OR
+from random import shuffle
 from uuid import getnode as get_mac
-
 
 SIOCGIFCONF = 0x8912  #define SIOCGIFCONF
 BYTES = 4096          # Simply define the byte size
@@ -217,3 +217,71 @@ def queryExpressResolutions(model):
 
 	return model.objects.filter(reduce(OR, qs))
 
+def assignRoles(session, chosenRoles, genericRoles, players, extraRoles=0):
+	# Extra roles is for hiding cards will mostly ignore for now
+	specialRoles = chosenRoles.filter(generic=False)
+	neutrals = specialRoles.filter(affiliation__isnull=True)
+	
+	affiliateRef = affiliateReference(session.game)
+	affiliateFormula = roleFormula(session.game, players.count(), affiliateRef, neutrals.count(), extraRoles)
+
+	allRoles = list(specialRoles)
+
+	for formula in affiliateFormula:
+		count = affiliateFormula[formula]
+		matched = 0
+		if formula == 'Unaffiliated':
+			matched = neutrals.count()
+			if matched < count:
+				# This shouldn't happen, but if it does we need to add "generic" Neutrals, which don't really exist
+				# So for now just bail out
+				return False
+		else:
+			matched = specialRoles.filter(affiliation__name=formula).count()
+			leftover = count - matched
+			if leftover > 0:
+				generic = genericRoles.filter(affiliation__name=formula)
+				allRoles.extend(list(generic)*leftover)
+
+
+	# If there are extra roles, pull one out now
+
+	pl = list(players)
+
+	print "Player Count", len(pl), "Role Count", len(allRoles)
+
+	shuffle(pl)
+	shuffle(allRoles)
+
+	for p, r in zip(pl, allRoles):
+		print "Player: ", p, "Role: ", r
+		p.role = r
+		p.save()
+
+def affiliateReference(game):
+	ref = {}
+	if game.name == 'Two Rooms and a Boom':
+		ref['good'] = 'Blue Team'
+		ref['evil'] = 'Red Team'
+
+	elif game.name == 'Resistance':
+		pass
+
+	return ref
+
+
+def roleFormula(game, players, ref, neutralRoles=0, extraRoles=0):
+	d = {}
+	bonusNeutral = 0
+	if game.name == 'Two Rooms and a Boom':
+		nonNeutrals = (players + extraRoles) - neutralRoles
+		if nonNeutrals % 2 == 1:
+			bonusNeutral = 1
+
+		d['Unaffiliated'] = neutralRoles + bonusNeutral
+		d[ref['good']] = d[ref['evil']] = nonNeutrals / 2
+
+	elif game.name == 'Resistance':
+		pass
+
+	return d

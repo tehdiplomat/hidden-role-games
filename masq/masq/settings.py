@@ -91,6 +91,11 @@ TEMPLATE_DIRS = (
 
 MQ_VERSION = 1
 
+# Pusher for server pushes (Override these values with your api keys in local_settings)
+PUSHER_APP = '12345'
+PUSHER_KEY = '98765'
+PUSHER_SECRET = 'abcdef'
+
 try:
 	from local_settings import *
 	print "Local settings imported..."
