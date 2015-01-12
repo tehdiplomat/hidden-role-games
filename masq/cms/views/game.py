@@ -39,7 +39,7 @@ def lobby(request, id=None):
 
 	game = Game.objects.filter(gamesession__in=session)
 	affiliations = Affiliation.objects.filter(game=game)
-	roles = Role.objects.filter(game=game)
+	roles = Role.objects.filter(game=game, generic=False)
 
 	init = request.GET.get('init', None)
 	player = None

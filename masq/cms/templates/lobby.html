@@ -41,11 +41,29 @@
 		</div>
 	</div>
 
+	
 	<hr/>
+	<div class="rolePanel panel">
+		All players not assigned a specific role, will get a generic role assigned to them.<br/>
 
+	{% if player.host %}
+	{% for role in roles %} 
+		<input type="checkbox" data-id={{ role.id }} class="roleCheckbox" /> 
+
+		{{ role.name }}
+
+		<br/>
+	{% endfor %}
+	{% endif %}
+	</div>
+	
+
+	{% if player.host %}
+	<hr/>
 	<div class="startPanel panel">
 		<button class="startSession">Assign Player Roles</button>
 	</div>
+	{% endif %}
 {% endblock %}
 
 {% block dataBlock %}

@@ -74,6 +74,22 @@ require([
 
 		$(".startSession").click(function() {
 			// Assign the roles 
+			var roleList = [];
+			$(".roleCheckbox").each(function() {
+				if (this.checked) {
+					roleList.push(this.data('id'));
+				}
+			});
+
+			console.log(roleList);
+			commandData = {
+				'action': 'startSession',
+				'roles': roleList,
+				'session': Object.keys(copy.gameSessions)[0]
+			}
+			Utils_sendCommand(commandData, function() {
+				// DO THINGS
+			});
 		});
 	}
 
