@@ -81,11 +81,10 @@ require([
 				}
 			});
 
-			console.log(roleList);
 			commandData = {
 				'model': 'system',
 				'action': 'startSession',
-				'roles': roleList,
+				'roles': roleList.join(),
 				'session': Object.keys(copy.gameSessions)[0]
 			}
 			Utils_sendCommand({'data': commandData}, function() {

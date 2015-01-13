@@ -36,8 +36,10 @@ def startSession(data):
 		return Http404
 
 	#print "Retrieving things"
+	roleIds = data.get('roles', '').split(',')
+	#print data.get('roles', [])
 	players = Player.objects.filter(session=session)
-	chosenRoles = Role.objects.filter(id__in=data.get('roles', []))
+	chosenRoles = Role.objects.filter(id__in=roleIds)
 	genericRoles = Role.objects.filter(game=session.game, generic=True)
 
 	#print "About to assign roles"
@@ -47,7 +49,7 @@ def startSession(data):
 	#print "Pre push"
 	push = pusher.Pusher(app_id=settings.PUSHER_APP, key=settings.PUSHER_KEY, secret=settings.PUSHER_SECRET)
 
-	p['lobby'+sess].trigger('game', {'message': 'Game session is starting', 'action': 'rolesAssigned' })
+	push['lobby'+sess].trigger('game', {'message': 'Game session is starting', 'action': 'rolesAssigned' })
 	#print "Post push"
 
 	return None
