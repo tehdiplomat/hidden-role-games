@@ -9,5 +9,5 @@ urlpatterns = patterns('cms.views',
 	url(r'^lobby/(?P<id>[0-9]+)/$', 'game.lobby'),
 	url(r'^play$', 'game.play'),
 
-	#url(r'^command$', 'command.command'),
+	url(r'^command/$', 'command.command'),
 )

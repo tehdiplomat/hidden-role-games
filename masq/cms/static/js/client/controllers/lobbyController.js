@@ -77,17 +77,19 @@ require([
 			var roleList = [];
 			$(".roleCheckbox").each(function() {
 				if (this.checked) {
-					roleList.push(this.data('id'));
+					roleList.push($(this).data('id'));
 				}
 			});
 
 			console.log(roleList);
 			commandData = {
+				'model': 'system',
 				'action': 'startSession',
 				'roles': roleList,
 				'session': Object.keys(copy.gameSessions)[0]
 			}
-			Utils_sendCommand(commandData, function() {
+			Utils_sendCommand({'data': commandData}, function() {
+				console.log("In callback");
 				// DO THINGS
 			});
 		});
