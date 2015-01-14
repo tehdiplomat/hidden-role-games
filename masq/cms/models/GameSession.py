@@ -5,12 +5,14 @@ from rest_framework import serializers
 
 from cms.models.Base import BaseModel
 from cms.models.Game import Game
+from cms.models.Role import Role
 
 class GameSession(BaseModel):
 	name = models.CharField(max_length=32, default='Unnamed Session')
 	game = models.ForeignKey(Game, null=False)
 
 	active = models.BooleanField(default=True)
+	roles = models.ManyToManyField(Role)
 
 	
 	def __unicode__(self):
@@ -29,6 +31,6 @@ class GameSessionAdmin(admin.ModelAdmin):
 class GameSessionSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = GameSession
-		fields = ('id', 'name', 'game', 'active')
+		fields = ('id', 'name', 'game', 'active', 'roles')
 
 GameSession.serializer = GameSessionSerializer

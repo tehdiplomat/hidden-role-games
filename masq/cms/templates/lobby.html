@@ -9,7 +9,7 @@
 {% block title %}Lobby{% endblock %}
 
 {% block styles %}
-	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/start.css{% if ZC_VERSION %}?v={{ ZC_VERSION }}{% endif %}" />
+	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/lobby.css{% if ZC_VERSION %}?v={{ ZC_VERSION }}{% endif %}" />
 {% endblock %}
 
 {% block jsModuleName %}lobbyController{% endblock %}
@@ -26,7 +26,7 @@
 	
 	Made it to the lobby!!!11
 
-	<div class="playerPanel panel">
+	<div class="selfPanel panel">
 		Name: <input type="text" class="playerName" /><br/>
 		Pin: <input type="text" class="playerPin" /><br/>
 		Host: <input type="checkbox" class="playerHost" disabled /><br/>
@@ -41,23 +41,33 @@
 		</div>
 	</div>
 
+	<hr/>
+	<div class="playerPanel panel">
+	Player (<span class="playerCount">{{ players.count }}</span>)
+	{% for pl in players %} 
+		<div class="player" data-id="{{pl.id}}">
+			<img src="/static/img/user.png" class="{% if player == pl %}active{% else %}waiting{% endif %} playerIcon" />{{ pl.name }} 
+		</div>
+	{% endfor %}
+	</div>
+
 	
 	<hr/>
 	<div class="rolePanel panel">
-		All players not assigned a specific role, will get a generic role assigned to them.<br/>
-
-	{% if player.host %}
-	{% for role in roles %} 
-		<input type="checkbox" data-id={{ role.id }} class="roleCheckbox" /> 
-
-		{{ role.name }}
-
-		<br/>
+		Roles (<span class="roleCount">{{ roles.count }}</span>)
+	{% for role in roles %}
+		<div class="role" data-id="{{role.id}}">
+		{% if player.host %}
+			<button class="removeRole" disabled>-</button>
+		{% endif %}
+			{{ role.name }}
+		{% if player.host %}
+			<button class="addRole" disabled>+</button>
+		{% endif %}
+		</div>
 	{% endfor %}
-	{% endif %}
 	</div>
 	
-
 	{% if player.host %}
 	<hr/>
 	<div class="startPanel panel">

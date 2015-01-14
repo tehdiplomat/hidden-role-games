@@ -7,7 +7,8 @@ define(["./base"], function(Base) {
 		this.text = "";
 		this.generic = true;
 		this.maxPerGame = 0;
-		
+		this.required = "never";
+
 		Base.call(this);
 	};
 
@@ -29,6 +30,7 @@ define(["./base"], function(Base) {
 		"text": "string",
 		"generic": "bool",
 		"maxPerGame": "int",
+		"required": "string",
 	};
 	Utils_addGettersAndSetters(Role, fields);
 	return Role;

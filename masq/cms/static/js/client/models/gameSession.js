@@ -4,6 +4,7 @@ define(["./base"], function(Base) {
 		this.name = "";
 		this.gameId = null;
 		this.active = true;
+		this.roles = [];
 
 		Base.call(this);
 	};
@@ -15,9 +16,49 @@ define(["./base"], function(Base) {
 		return info;
 	}
 
+	function GameSession_getRoles(){
+		return this.roles;
+	}
+
+	function GameSession_setRoles(roles){
+		this.roles = [];
+
+		for (var r in roles)
+				this.addLinkedEntry(roles[r]);
+	}
+
+	function GameSession_addRole(role){
+		if (!role)
+				return;
+		else if (role instanceof Role)
+				this.roles.push(role.getId());
+		else
+				this.roles.push(role);
+	}
+
+	function GameSession_removeRole(role){
+		var r;
+		if (!role)
+				return;
+		else if (role instanceof Role)
+				r = role.getId());
+		else
+				r = role;
+
+		this.roles.indexOf(r);
+		if (r > -1) {
+			this.roles.splice(r, 1);
+		}	
+	}
+
 	GameSession.prototype = new Base;
 	GameSession.prototype.constructor = GameSession;
 	GameSession.prototype.getInfo = GameSession_getInfo;
+
+	GameSession.prototype.getRoles = GameSession_getRoles;
+	GameSession.prototype.setRoles = GameSession_setRoles;
+	GameSession.prototype.addRole = GameSession_addRole;
+	GameSession.prototype.removeRole = GameSession_removeRole;
 
 	var fields = {
 		"name": "string",

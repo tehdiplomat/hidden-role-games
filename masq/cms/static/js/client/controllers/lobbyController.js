@@ -29,6 +29,7 @@ require([
 		this.genericSubscribePusher("player" + local);
 		this.setGameHandlers();
 		this.setInviteHandler();
+		this.setDomState();
 	}
 
 	function LobbyController_initiateLocalPlayer() {
@@ -46,6 +47,7 @@ require([
 		}
 
 		this.player = this.players[local];
+		this.session = this.gameSessions[this.player.getSession()];
 
 		$(".playerName").val(this.player.getName());
 		$(".playerPin").val(this.player.getPin());
@@ -71,21 +73,25 @@ require([
 			}, changedFields: fields});
 		});
 
+		$(".addRole").click(function() {
+			console.log("Adding Role", $(this).parent().data('id'));
+			copy.session.addRole($(this).parent().data('id'));
+			copy.session.save();
+		});
+
+		$(".removeRole").click(function() {
+			console.log("Adding Role", $(this).parent().data('id'));
+			copy.session.removeRole($(this).parent().data('id'));
+			copy.session.save();
+		});
+
 
 		$(".startSession").click(function() {
-			// Assign the roles 
-			var roleList = [];
-			$(".roleCheckbox").each(function() {
-				if (this.checked) {
-					roleList.push($(this).data('id'));
-				}
-			});
-
 			commandData = {
 				'model': 'system',
 				'action': 'startSession',
-				'roles': roleList.join(),
-				'session': Object.keys(copy.gameSessions)[0]
+				//'roles': roleList.join(),
+				'session': copy.session
 			}
 			Utils_sendCommand({'data': commandData}, function() {
 				console.log("In callback");
@@ -103,6 +109,20 @@ require([
 		});
 	}
 
+	function LobbyController_setDomState() {
+		// TODO Check for Player presence in the push server
+
+
+		// TODO Check which Roles are already assigned into the session
+		for(var role in this.roles) {
+			var roleDom = $(".role[data-id='"+ role + "']")
+			if (role in this.session.roles) {
+				$(".removeRole", roleDom).prop('disabled', false);
+			} else {
+				$(".addRole", roleDom).prop('disabled', false);
+			}
+		}
+	}
 
 	LobbyController.prototype = new BaseController;
 	LobbyController.prototype.constructor = LobbyController;
@@ -110,5 +130,6 @@ require([
 	LobbyController.prototype.initiateLocalPlayer = LobbyController_initiateLocalPlayer;
 	LobbyController.prototype.setGameHandlers = LobbyController_setGameHandlers;
 	LobbyController.prototype.setInviteHandler = LobbyController_setInviteHandler;
+	LobbyController.prototype.setDomState = LobbyController_setDomState;
 	new LobbyController();
 });

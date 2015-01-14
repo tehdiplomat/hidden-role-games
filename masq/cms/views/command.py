@@ -36,16 +36,17 @@ def startSession(data):
 		return Http404
 
 	#print "Retrieving things"
-	roleIds = data.get('roles', '').split(',')
+	#roleIds = data.get('roles', '').split(',')
 	#print data.get('roles', [])
 	players = Player.objects.filter(session=session)
-	chosenRoles = Role.objects.filter(id__in=roleIds)
+	chosenRoles = Role.objects.filter(id__in=session.roles)
 	genericRoles = Role.objects.filter(game=session.game, generic=True)
 
 	#print "About to assign roles"
 	if assignRoles(session, chosenRoles, genericRoles, players):
 		return Http404
 
+	# TODO Generalize pushing mechanic
 	#print "Pre push"
 	push = pusher.Pusher(app_id=settings.PUSHER_APP, key=settings.PUSHER_KEY, secret=settings.PUSHER_SECRET)
 
