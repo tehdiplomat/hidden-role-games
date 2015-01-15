@@ -74,15 +74,31 @@ require([
 		});
 
 		$(".addRole").click(function() {
-			console.log("Adding Role", $(this).parent().data('id'));
-			copy.session.addRole($(this).parent().data('id'));
-			copy.session.save();
+			var item = $(this).parent();
+			console.log("Adding Role", item.data('id'));
+			copy.session.addRole(item.data('id'));
+			copy.session.update({"changedFields": [ "roles" ], "callback": function() {
+				// Flip disabled buttons
+				if (this.failed) {
+					console.log("Failed to add role to active roles");
+				} else {
+					copy.roleActivation(item, true, true);
+				}
+			} });
 		});
 
 		$(".removeRole").click(function() {
-			console.log("Adding Role", $(this).parent().data('id'));
-			copy.session.removeRole($(this).parent().data('id'));
-			copy.session.save();
+			var item = $(this).parent();
+			console.log("Removing Role", item.data('id'));
+			copy.session.removeRole(item.data('id'));
+			copy.session.update({"changedFields": [ "roles" ], "callback": function() {
+				// Flip disabled buttons
+				if (this.failed) {
+					console.log("Failed to remove role from active roles");
+				} else {
+					copy.roleActivation(item, false, true);
+				}
+			} });
 		});
 
 
@@ -114,14 +130,38 @@ require([
 
 
 		// TODO Check which Roles are already assigned into the session
+		console.log(this.session.roles);
 		for(var role in this.roles) {
-			var roleDom = $(".role[data-id='"+ role + "']")
-			if (role in this.session.roles) {
-				$(".removeRole", roleDom).prop('disabled', false);
-			} else {
-				$(".addRole", roleDom).prop('disabled', false);
+			var roleDom = $(".role[data-id='"+ role + "']");
+			var flag = this.session.roles.indexOf(parseInt(role)) > -1;
+			this.roleActivation(roleDom, flag, false);
+		}
+		this.updateCounts();
+	}
+
+	function LobbyController_roleActivation(roleDom, flag, update) {
+		// Activate when flag = true
+		// Deactivate when flag = falsa
+		if (flag) {
+			if (roleDom.parent().hasClass("inactiveRoles")) {
+				roleDom.appendTo(".activeRoles");
+			}
+		} else {
+			if (roleDom.parent().hasClass("activeRoles")) {
+				roleDom.appendTo(".inactiveRoles");
 			}
 		}
+		// Update numbers in each column
+		if (update) {
+			this.updateCounts();
+		}
+	}
+
+	function LobbyController_updateCounts() {
+		$(".roleCount", ".inactiveRoles").text($("li", ".inactiveRoles").length);
+		$(".roleCount", ".activeRoles").text($("li", ".activeRoles").length);
+
+		$(".playerCount", ".playerPanel").text($("li", ".playerPanel").length);
 	}
 
 	LobbyController.prototype = new BaseController;
@@ -131,5 +171,7 @@ require([
 	LobbyController.prototype.setGameHandlers = LobbyController_setGameHandlers;
 	LobbyController.prototype.setInviteHandler = LobbyController_setInviteHandler;
 	LobbyController.prototype.setDomState = LobbyController_setDomState;
+	LobbyController.prototype.roleActivation = LobbyController_roleActivation;
+	LobbyController.prototype.updateCounts = LobbyController_updateCounts;
 	new LobbyController();
 });

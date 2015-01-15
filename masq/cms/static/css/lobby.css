@@ -8,3 +8,30 @@
 .waiting {
 	opacity: .2;
 }
+
+.inactiveRoles .removeRole {
+	display: none;
+}
+
+.activeRoles .addRole {
+	display: none;
+}
+
+.rolePanel {
+	display: flex;
+	list-style: none;
+}
+
+.subpanel {
+	width: 50%;
+	border: dashed black 1px;
+}
+
+.role {
+	flex-flow: column;
+}
+
+ul, li {
+	padding: 0px;
+	list-style: none;
+}

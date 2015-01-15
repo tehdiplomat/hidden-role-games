@@ -24,30 +24,30 @@ define(["./base"], function(Base) {
 		this.roles = [];
 
 		for (var r in roles)
-				this.addLinkedEntry(roles[r]);
+			this.addRole(roles[r]);
 	}
 
 	function GameSession_addRole(role){
 		if (!role)
-				return;
+			return;
 		else if (role instanceof Role)
-				this.roles.push(role.getId());
+			this.roles.push(role.getId());
 		else
-				this.roles.push(role);
+			this.roles.push(role);
 	}
 
 	function GameSession_removeRole(role){
 		var r;
 		if (!role)
-				return;
+			return;
 		else if (role instanceof Role)
-				r = role.getId());
+			r = role.getId();
 		else
-				r = role;
+			r = role;
 
-		this.roles.indexOf(r);
-		if (r > -1) {
-			this.roles.splice(r, 1);
+		var idx = this.roles.indexOf(r);
+		if (idx > -1) {
+			this.roles.splice(idx, 1);
 		}	
 	}
 

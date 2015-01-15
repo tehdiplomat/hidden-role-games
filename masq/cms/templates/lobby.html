@@ -45,27 +45,33 @@
 	<div class="playerPanel panel">
 	Player (<span class="playerCount">{{ players.count }}</span>)
 	{% for pl in players %} 
-		<div class="player" data-id="{{pl.id}}">
+		<li class="player" data-id="{{pl.id}}">
 			<img src="/static/img/user.png" class="{% if player == pl %}active{% else %}waiting{% endif %} playerIcon" />{{ pl.name }} 
-		</div>
+		</li>
 	{% endfor %}
 	</div>
 
 	
 	<hr/>
 	<div class="rolePanel panel">
-		Roles (<span class="roleCount">{{ roles.count }}</span>)
-	{% for role in roles %}
-		<div class="role" data-id="{{role.id}}">
-		{% if player.host %}
-			<button class="removeRole" disabled>-</button>
-		{% endif %}
-			{{ role.name }}
-		{% if player.host %}
-			<button class="addRole" disabled>+</button>
-		{% endif %}
+		<div class="subpanel inactiveRoles">
+			Available Roles (<span class="roleCount">{{ roles.count }}</span>)
+		{% for role in roles %}
+			<li class="role" data-id="{{role.id}}">
+			{% if player.host %}
+				<button class="removeRole">-</button>
+			{% endif %}
+				{{ role.name }}
+			{% if player.host %}
+				<button class="addRole">+</button>
+			{% endif %}
+			</li>
+		{% endfor %}
 		</div>
-	{% endfor %}
+		<div class="subpanel activeRoles">
+			Chosen Roles (<span class="roleCount">0</span>)
+			
+		</div>
 	</div>
 	
 	{% if player.host %}
