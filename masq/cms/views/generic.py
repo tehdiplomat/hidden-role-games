@@ -5,6 +5,5 @@ from django.contrib.auth.views import logout_then_login
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 
-@login_required
 def index(request):
 	return redirect('/cms/join')

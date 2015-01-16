@@ -1,8 +1,10 @@
+import json
 import pusher
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from cms.models import GameSession, Player, Role
 from cms.utils.Utils import assignRoles
@@ -50,7 +52,36 @@ def startSession(data):
 	#print "Pre push"
 	push = pusher.Pusher(app_id=settings.PUSHER_APP, key=settings.PUSHER_KEY, secret=settings.PUSHER_SECRET)
 
-	push['lobby'+sess].trigger('game', {'message': 'Game session is starting', 'action': 'rolesAssigned' })
+	push['presence-lobby'+sess].trigger('game', {'message': 'Game session is starting', 'action': 'rolesAssigned' })
 	#print "Post push"
 
 	return None
+
+@csrf_exempt
+def auth(request):
+	data = request.POST
+	channel_name = data.get('channel_name')
+	socket_id = data.get('socket_id')
+
+	if not request.session.get('has_session'):
+		request.session['has_session'] = True
+
+	try:
+		pl = Player.objects.get(browserSession=request.session.session_key)
+	except:
+		print "No player found with this session key", request.session.session_key
+		pl = None
+
+	channel_data = {'user_id': socket_id}
+	if pl:
+		channel_data['user_info'] = {'name':pl.name, 'id': pl.id}
+	else:
+		channel_data['user_info'] = {'name': 'Unknown player', 'id': None}
+
+	p = pusher.Pusher(app_id=settings.PUSHER_APP, key=settings.PUSHER_KEY, secret=settings.PUSHER_SECRET)
+
+	auth = p[channel_name].authenticate(socket_id, channel_data)
+	json_data = json.dumps(auth)
+
+	#return JsonResponse(auth)
+	return HttpResponse(json_data)

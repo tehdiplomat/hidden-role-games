@@ -46,7 +46,7 @@
 	Player (<span class="playerCount">{{ players.count }}</span>)
 	{% for pl in players %} 
 		<li class="player" data-id="{{pl.id}}">
-			<img src="/static/img/user.png" class="{% if player == pl %}active{% else %}waiting{% endif %} playerIcon" />{{ pl.name }} 
+			<img src="/static/img/user.png" class="waiting playerIcon" />{{ pl.name }} 
 		</li>
 	{% endfor %}
 	</div>

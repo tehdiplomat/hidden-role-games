@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib import admin
+from django.contrib.sessions.models import Session
 from django.conf import settings
 from rest_framework import serializers
 
@@ -15,6 +16,8 @@ class Player(BaseModel):
 	hidden = models.BooleanField(default=True)
 	pin = models.PositiveSmallIntegerField(default=1234)
 	host = models.BooleanField(default=False)
+
+	browserSession = models.ForeignKey(Session, default=None, blank=True, null=True, on_delete=models.SET_NULL)
 
 	
 	def __unicode__(self):

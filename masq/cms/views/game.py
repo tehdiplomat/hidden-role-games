@@ -23,6 +23,9 @@ def start(request):
 	games = Game.objects.all()
 	sessions = GameSession.objects.filter(active=True)
 
+	if not request.session.get('has_session'):
+		request.session['has_session'] = True
+
 	return render_to_response('start.html', {
 		'games': games,
 		'gameSessions': sessions
@@ -69,6 +72,14 @@ def lobby(request, id=None):
 		# No player passed in, this will either error out or load from localstorage
 		# Watcher? Ask user if they want to try to log in with localstorage user?
 		player = None
+
+	if player:
+		if not request.session.get('has_session'):
+			request.session['has_session'] = True
+
+		print "ASsigning session key to ", request.session.session_key, player
+		player.browserSession_id = request.session.session_key
+		player.save()
 
 	players = Player.objects.filter(session=session)
 	inviteURL = '%smasq/lobby/%s/?init=join' % (settings.SITE_URL, id)

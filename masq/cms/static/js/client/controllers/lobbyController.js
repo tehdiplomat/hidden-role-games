@@ -26,9 +26,11 @@ require([
 		this.setGenericHandlers();
 		if (!this.initiateLocalPlayer()) 
 			return;
-		this.genericSubscribePusher("player" + local);
+		this.genericSubscribePusher("presence-lobby" + this.session.id);
+		this.setPushHandlers();
 		this.setGameHandlers();
 		this.setInviteHandler();
+
 		this.setDomState();
 	}
 
@@ -130,7 +132,7 @@ require([
 
 
 		// TODO Check which Roles are already assigned into the session
-		console.log(this.session.roles);
+		//console.log(this.session.roles);
 		for(var role in this.roles) {
 			var roleDom = $(".role[data-id='"+ role + "']");
 			var flag = this.session.roles.indexOf(parseInt(role)) > -1;
@@ -164,6 +166,38 @@ require([
 		$(".playerCount", ".playerPanel").text($("li", ".playerPanel").length);
 	}
 
+	function LobbyController_setPushHandlers() {
+		var copy = this;
+		this.channel.bind('pusher:subscription_succeeded', function() {
+			copy.channel.members.each(function(member) {
+				activateMember(member, true);
+			});
+		});
+		// Bind to other channels
+		this.channel.bind('pusher:member_added', function(member) {
+		// for example:
+			activateMember(member, true);
+		});
+
+		this.channel.bind('pusher:member_removed', function(member) {
+			// for example:
+			activateMember(member, false);
+		});
+
+		function activateMember(member, flag) {
+			var userInfo = member.info;
+			console.log(userInfo);
+			var roleDom = $(".player[data-id='"+ userInfo['id'] + "']");
+			if (flag) {
+				$(".playerIcon", roleDom).addClass("active").removeClass("waiting");
+			} else {
+				$(".playerIcon", roleDom).addClass("waiting").removeClass("active");
+			}
+		}
+	}
+
+
+
 	LobbyController.prototype = new BaseController;
 	LobbyController.prototype.constructor = LobbyController;
 	LobbyController.prototype.setHandlers = LobbyController_setHandlers;
@@ -173,5 +207,6 @@ require([
 	LobbyController.prototype.setDomState = LobbyController_setDomState;
 	LobbyController.prototype.roleActivation = LobbyController_roleActivation;
 	LobbyController.prototype.updateCounts = LobbyController_updateCounts;
+	LobbyController.prototype.setPushHandlers = LobbyController_setPushHandlers;
 	new LobbyController();
 });
