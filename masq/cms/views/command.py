@@ -41,7 +41,7 @@ def startSession(data):
 	#roleIds = data.get('roles', '').split(',')
 	#print data.get('roles', [])
 	players = Player.objects.filter(session=session)
-	chosenRoles = Role.objects.filter(id__in=session.roles)
+	chosenRoles = session.roles.all()
 	genericRoles = Role.objects.filter(game=session.game, generic=True)
 
 	#print "About to assign roles"

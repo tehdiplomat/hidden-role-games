@@ -1,4 +1,4 @@
-define(["./base"], function(Base) {
+define(["./base", "models/role"], function(Base) {
 
 	GameSession = function() {
 		this.name = "";

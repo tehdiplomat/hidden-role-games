@@ -7,7 +7,7 @@ from cms.models.Base import BaseModel
 
 class Game(BaseModel):
 	name = models.CharField(max_length=32, default='Unnamed Game')
-
+	template = models.CharField(max_length=32, default='play.html', blank=True)
 	
 	def __unicode__(self):
 		return u'%s' % (self.name)

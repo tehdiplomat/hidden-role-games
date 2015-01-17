@@ -109,7 +109,7 @@ require([
 				'model': 'system',
 				'action': 'startSession',
 				//'roles': roleList.join(),
-				'session': copy.session
+				'session': copy.session.getId()
 			}
 			Utils_sendCommand({'data': commandData}, function() {
 				console.log("In callback");
@@ -194,6 +194,16 @@ require([
 				$(".playerIcon", roleDom).addClass("waiting").removeClass("active");
 			}
 		}
+
+		this.channel.bind('game', function(data) {
+			
+			if (data['action'] == 'rolesAssigned') {
+				// Is that allowed? Or do we have to just show a button for people to push?
+				window.location.href = '/masq/play';
+			} else {
+				console.log(data);
+			}
+		});
 	}
 
 

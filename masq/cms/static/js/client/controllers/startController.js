@@ -34,7 +34,7 @@ require([
 			gs.create({ callback: function() {
 				// Move user to lobby
 				var href = window.location.pathname.replace('start', 'lobby') + '/' + gs.getId() + '/' + '?init=host';
-				window.location.href = href;		
+				window.location.href = href;
 			}});
 		});
 

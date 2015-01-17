@@ -77,7 +77,7 @@ def lobby(request, id=None):
 		if not request.session.get('has_session'):
 			request.session['has_session'] = True
 
-		print "ASsigning session key to ", request.session.session_key, player
+		print "Assigning session key to ", request.session.session_key, player
 		player.browserSession_id = request.session.session_key
 		player.save()
 
@@ -96,8 +96,23 @@ def lobby(request, id=None):
 
 
 def play(request):
-	games = Game.objects.all()
+	try:
+		pl = Player.objects.get(browserSession=request.session.session_key)
+	except:
+		print "No player found with this session key", request.session.session_key
+		pl = None
 
-	return render_to_response('play.html', {
-		'games': games
+	session = pl.session
+	game = session.game
+	role = pl.role
+	affiliation = role.affiliation
+
+	template = game.template if game.template else 'play.html'
+
+	return render_to_response(template, {
+		'game': game,
+		'gameSession': session,
+		'role': role,
+		'player': pl,
+		'affiliation': affiliation
 	}, context_instance=RequestContext(request))
