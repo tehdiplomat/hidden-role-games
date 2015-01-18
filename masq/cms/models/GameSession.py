@@ -12,9 +12,10 @@ class GameSession(BaseModel):
 	game = models.ForeignKey(Game, null=False)
 
 	active = models.BooleanField(default=True)
+	currentRound = models.PositiveSmallIntegerField(default=0)
+	rounds = models.PositiveSmallIntegerField(default=5)
 	roles = models.ManyToManyField(Role)
 
-	
 	def __unicode__(self):
 		return u'%s' % (self.name)
 

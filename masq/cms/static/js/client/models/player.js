@@ -7,6 +7,7 @@ define(["./base"], function(Base) {
 		this.hidden = true;
 		this.pin = 1234;
 		this.host = false;
+		this.room = 0;
 
 		Base.call(this);
 	};
@@ -28,7 +29,8 @@ define(["./base"], function(Base) {
 		"role": "FK-Role",
 		"hidden": "bool",
 		"host": "bool",
-		"pin": "int"
+		"pin": "int",
+		"room": "int"
 	};
 	Utils_addGettersAndSetters(Player, fields);
 	return Player;

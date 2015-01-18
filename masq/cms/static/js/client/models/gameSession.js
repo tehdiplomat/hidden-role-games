@@ -4,6 +4,8 @@ define(["./base", "models/role"], function(Base) {
 		this.name = "";
 		this.gameId = null;
 		this.active = true;
+		this.currentRound = 0;
+		this.rounds = 5;
 		this.roles = [];
 
 		Base.call(this);
@@ -64,6 +66,8 @@ define(["./base", "models/role"], function(Base) {
 		"name": "string",
 		"game": "FK-Game",
 		"active": "bool",
+		"rounds": "int",
+		"currentRound": "int"
 	};
 	Utils_addGettersAndSetters(GameSession, fields);
 	return GameSession;

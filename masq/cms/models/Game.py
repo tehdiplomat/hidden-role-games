@@ -12,6 +12,13 @@ class Game(BaseModel):
 	def __unicode__(self):
 		return u'%s' % (self.name)
 
+
+	def secondsPerRound(round, totalRounds):
+		if name == 'tworooms':
+			return totalRounds - round + 1
+
+		return 0
+
 	class Meta:
 		app_label = 'cms'
 		verbose_name_plural = 'games'

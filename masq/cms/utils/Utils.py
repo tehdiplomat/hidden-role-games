@@ -250,12 +250,18 @@ def assignRoles(session, chosenRoles, genericRoles, players, extraRoles=0):
 
 	print "Player Count", len(pl), "Role Count", len(allRoles)
 
+	# Randomize roles to players
 	shuffle(pl)
 	shuffle(allRoles)
 
 	for p, r in zip(pl, allRoles):
-		print "Player: ", p, "Role: ", r
 		p.role = r
+
+	# Randomize players again for room assignment
+	shuffle(pl)
+	for idx, p in enumerate(pl):
+		p.room = idx % 2 + 1
+		print "Player: ", p, "Role: ", p.role, "Room:", p.room
 		p.save()
 
 def affiliateReference(game):

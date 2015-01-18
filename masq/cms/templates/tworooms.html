@@ -12,7 +12,7 @@
 	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/tworooms.css{% if ZC_VERSION %}?v={{ ZC_VERSION }}{% endif %}" />
 {% endblock %}
 
-{% block jsModuleName %}playController{% endblock %}
+{% block jsModuleName %}tworoomsController{% endblock %}
 
 {% block scripts %}
 	<script>
@@ -23,9 +23,15 @@
 {% block content %}
 	<h1>It's game time hoooooo!!!11</h1>
 
+	<hr/>
+	<div class="startPanel panel">
+		Round #<span class="currentRound">0</span>
+		Time Remaining: <span class="timeRemaining">0</span> seconds
+	</div>
 	
 	<hr/>
 	<div class="rolePanel panel">
+		Starting Room: #{{ player.room }} <br/>
 		Your Affiliation is: {{ affiliation }} <br/>
 		Your Role is: {{ role.name }} <br/>
 		Rules text: {{ role.text }}
@@ -34,7 +40,7 @@
 	{% if player.host %}
 	<hr/>
 	<div class="startPanel panel">
-		<button class="startSession">Start Timer</button>
+		<button class="startRound">Start Round Timer</button>
 	</div>
 	{% endif %}
 {% endblock %}

@@ -16,6 +16,7 @@ class Player(BaseModel):
 	hidden = models.BooleanField(default=True)
 	pin = models.PositiveSmallIntegerField(default=1234)
 	host = models.BooleanField(default=False)
+	room = models.PositiveSmallIntegerField(default=0)
 
 	browserSession = models.ForeignKey(Session, default=None, blank=True, null=True, on_delete=models.SET_NULL)
 
@@ -29,7 +30,7 @@ class Player(BaseModel):
 		ordering = ['name']
 
 class PlayerAdmin(admin.ModelAdmin):
-	list_display = ['id', 'name', 'session', 'role']
+	list_display = ['id', 'name', 'session', 'role', 'room']
 	list_filter = ['session']
 
 # For serializing with django_rest_framework

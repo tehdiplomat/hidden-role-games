@@ -1,5 +1,6 @@
 import json
 import pusher
+from datetime import datetime
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -21,6 +22,8 @@ def command(request):
 
 	if action == 'startSession':
 		resp = startSession(data)
+	elif action == 'startRound':
+		resp = startRound(data)
 	else:
 		return Http404
 
@@ -53,6 +56,28 @@ def startSession(data):
 	push = pusher.Pusher(app_id=settings.PUSHER_APP, key=settings.PUSHER_KEY, secret=settings.PUSHER_SECRET)
 
 	push['presence-lobby'+sess].trigger('game', {'message': 'Game session is starting', 'action': 'rolesAssigned' })
+	#print "Post push"
+
+	return None
+
+def startRound(data):
+	sess = data.get('session', None)
+	#print "Sessioning"
+	session = GameSession.objects.get(id=sess)
+	if not session.active:
+		return Http404
+
+	now = datetime.now()
+
+	resp = {'message': 'Round is starting', 
+			'action': 'roundStart', 
+			'round': session.currentRound, 
+			#'startDatetime': str(now), 
+			'secondsRemaining': session.game.secondsPerRound(session.currentRound, session.rounds)}
+
+	push = pusher.Pusher(app_id=settings.PUSHER_APP, key=settings.PUSHER_KEY, secret=settings.PUSHER_SECRET)
+
+	push['presence-game'+sess].trigger('game', resp)
 	#print "Post push"
 
 	return None
