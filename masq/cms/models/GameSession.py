@@ -8,10 +8,20 @@ from cms.models.Game import Game
 from cms.models.Role import Role
 
 class GameSession(BaseModel):
+	STATUS_LOBBY = 'lobby'
+	STATUS_ACTIVE = 'active'
+	STATUS_END = 'completed'
+
+	STATUS_CHOICES = (
+		(STATUS_LOBBY, STATUS_LOBBY.capitalize()), 
+		(STATUS_ACTIVE, STATUS_ACTIVE.capitalize()),
+		(STATUS_END, STATUS_END.capitalize()),
+	)
+
 	name = models.CharField(max_length=32, default='Unnamed Session')
 	game = models.ForeignKey(Game, null=False)
 
-	active = models.BooleanField(default=True)
+	status = models.CharField(max_length=16, default=STATUS_LOBBY, choices=STATUS_CHOICES)
 	currentRound = models.PositiveSmallIntegerField(default=0)
 	rounds = models.PositiveSmallIntegerField(default=5)
 	roles = models.ManyToManyField(Role)
@@ -25,13 +35,13 @@ class GameSession(BaseModel):
 		ordering = ['name']
 
 class GameSessionAdmin(admin.ModelAdmin):
-	list_display = ['id', 'name', 'game', 'active']
+	list_display = ['id', 'name', 'game', 'status']
 	list_filter = ['name']
 
 # For serializing with django_rest_framework
 class GameSessionSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = GameSession
-		fields = ('id', 'name', 'game', 'active', 'roles')
+		fields = ('id', 'name', 'game', 'status', 'roles')
 
 GameSession.serializer = GameSessionSerializer

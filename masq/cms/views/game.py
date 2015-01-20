@@ -5,23 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from cms.models import GameSession, Game, Player, Affiliation, Role
 
-
-def join(request):
-	sessions = GameSession.objects.all()
-	games = Game.objects.filter(gamesession__in=sessions)
-	# Players per session
-	players = Player.objects.all()
-
-
-	return render_to_response('join.html', {
-		'sessions': sessions,
-		'games': games,
-		'players': players
-	}, context_instance=RequestContext(request))
-
 def start(request):
 	games = Game.objects.all()
-	sessions = GameSession.objects.filter(active=True)
+	sessions = GameSession.objects.exclude(status=GameSession.STATUS_END)
 
 	if not request.session.get('has_session'):
 		request.session['has_session'] = True
@@ -107,9 +93,11 @@ def play(request):
 	role = pl.role
 	affiliation = role.affiliation
 
-	template = game.template if game.template else 'play.html'
+	folder = game.template if game.template else ''
+	playTemplate = '%splay.html' % folder
+	refTemplate = '%reference.html' % folder
 
-	return render_to_response(template, {
+	return render_to_response(playTemplate, {
 		'game': game,
 		'gameSession': session,
 		'role': role,

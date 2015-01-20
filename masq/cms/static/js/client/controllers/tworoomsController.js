@@ -26,13 +26,13 @@ require([
 			return;
 		this.genericSubscribePusher("presence-game" + this.session.id);
 		this.setPushHandlers();
-		this.setGameHandlers();
-		this.setInviteHandler();
 
 		this.setDomState();
+		this.setPanelControllers();
 	}
 
 	function TworoomsController_initiateLocalPlayer() {
+		// I'm not sure I need this function at all I think
 		if (local) {
 			window.localStorage['localId'] = local;
 		} else if ('localId' in window.localStorage) {
@@ -46,33 +46,7 @@ require([
 			return false;
 		}
 
-		this.player = this.players[local];
-		this.session = this.gameSessions[this.player.getSession()];
-
 		return true;
-	}
-
-	function TworoomsController_setGameHandlers() {
-		var copy = this;
-
-		$(".startRound").click(function() {
-			if (copy.session.getCurrentRound() >= copy.session.getRounds()) {
-				// No more rounds are to be played
-				console.log("This is the last round. Nothing to start anymore.");
-			}
-
-			commandData = {
-				'model': 'system',
-				'action': 'startRound',
-				'currentRound': copy.session.getCurrentRound(),
-				//'roles': roleList.join(),
-				'session': copy.session.getId()
-			}
-			Utils_sendCommand({'data': commandData}, function() {
-				console.log("In callback");
-				// DO THINGS
-			});
-		});
 	}
 
 	function TworoomsController_setDomState() {
@@ -153,15 +127,58 @@ require([
 		});
 	}
 
+	function TworoomsController_setPanelControllers() {
+		var copy = this;
+		function activatePanel(panel) {
+			$(".panel").removeClass("active");
+			$("."+panel).addClass("active");
+		}
+
+		$(".startRound").click(function() {
+			activatePanel("roundPanel");
+
+			if (copy.session.getCurrentRound() >= copy.session.getRounds()) {
+				// No more rounds are to be played
+				console.log("This is the last round. Nothing to start anymore.");
+			}
+
+			commandData = {
+				'model': 'system',
+				'action': 'startRound',
+				'currentRound': copy.session.getCurrentRound(),
+				//'roles': roleList.join(),
+				'session': copy.session.getId()
+			}
+			Utils_sendCommand({'data': commandData}, function() {
+				console.log("In callback");
+				// DO THINGS
+			});
+		});
+
+		$(".displayTimer").click(function() {
+			activatePanel("roundPanel");
+
+		});
+
+		$(".colorReveal").click(function() {
+			activatePanel("colorPanel");
+		});
+
+		$(".cardReveal").click(function() {
+			activatePanel("cardPanel");
+		});
+
+	}
+
 
 	TworoomsController.prototype = new BaseController;
 	TworoomsController.prototype.constructor = TworoomsController;
 	TworoomsController.prototype.setHandlers = TworoomsController_setHandlers;
 	TworoomsController.prototype.initiateLocalPlayer = TworoomsController_initiateLocalPlayer;
-	TworoomsController.prototype.setGameHandlers = TworoomsController_setGameHandlers;
 	TworoomsController.prototype.setDomState = TworoomsController_setDomState;
 	TworoomsController.prototype.roleActivation = TworoomsController_roleActivation;
 	TworoomsController.prototype.updateCounts = TworoomsController_updateCounts;
 	TworoomsController.prototype.setPushHandlers = TworoomsController_setPushHandlers;
+	TworoomsController.prototype.setPanelControllers = TworoomsController_setPanelControllers;
 	new TworoomsController();
 });

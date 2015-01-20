@@ -6,7 +6,7 @@ from cms.models.Role import Role
 class GameSessionList(generics.ListCreateAPIView):
 	queryset = GameSession.objects.all()
 	serializer_class = GameSessionSerializer
-	filter_fields = ( 'active', )
+	filter_fields = ( 'status', )
 
 	# On Create, add required roles to Session
 	def perform_create(self, serializer):

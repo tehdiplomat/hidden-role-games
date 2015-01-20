@@ -3,7 +3,7 @@ define(["./base", "models/role"], function(Base) {
 	GameSession = function() {
 		this.name = "";
 		this.gameId = null;
-		this.active = true;
+		this.status = "lobby";
 		this.currentRound = 0;
 		this.rounds = 5;
 		this.roles = [];
@@ -65,7 +65,7 @@ define(["./base", "models/role"], function(Base) {
 	var fields = {
 		"name": "string",
 		"game": "FK-Game",
-		"active": "bool",
+		"active": "string",
 		"rounds": "int",
 		"currentRound": "int"
 	};

@@ -37,7 +37,7 @@ def startSession(data):
 	sess = data.get('session', None)
 	#print "Sessioning"
 	session = GameSession.objects.get(id=sess)
-	if not session.active:
+	if session.status != GameSession.STATUS_LOBBY:
 		return Http404
 
 	#print "Retrieving things"
@@ -50,6 +50,8 @@ def startSession(data):
 	#print "About to assign roles"
 	if assignRoles(session, chosenRoles, genericRoles, players):
 		return Http404
+
+	session.update(status=GameSession.STATUS_ACTIVE)
 
 	# TODO Generalize pushing mechanic
 	#print "Pre push"
@@ -64,7 +66,8 @@ def startRound(data):
 	sess = data.get('session', None)
 	#print "Sessioning"
 	session = GameSession.objects.get(id=sess)
-	if not session.active:
+
+	if session.status != GameSession.STATUS_ACTIVE:
 		return Http404
 
 	now = datetime.now()

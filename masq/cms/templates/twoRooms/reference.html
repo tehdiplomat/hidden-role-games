@@ -1,43 +1,3 @@
-{% extends "base.html" %}
-
-{% load queryFilters %}
-{% load basicFilters %}
-{% load basicTags %}
-
-{% block body_id %}Play Session{% endblock %}
-
-{% block title %}Play{% endblock %}
-
-{% block styles %}
-	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/tworooms.css{% if ZC_VERSION %}?v={{ ZC_VERSION }}{% endif %}" />
-{% endblock %}
-
-{% block jsModuleName %}tworoomsController{% endblock %}
-
-{% block scripts %}
-	<script>
-		var local = {{ player.id }};
-	</script>
-{% endblock %}
-
-{% block content %}
-	<h1>It's game time hoooooo!!!11</h1>
-
-	<hr/>
-	<div class="startPanel panel">
-		Round #<span class="currentRound">0</span>
-		Time Remaining: <span class="timeRemaining">0</span> seconds
-	</div>
-	
-	<hr/>
-	<div class="rolePanel panel">
-		Starting Room: #{{ player.room }} <br/>
-		Your Affiliation is: {{ affiliation }} <br/>
-		Your Role is: {{ role.name }} <br/>
-		Rules text: {{ role.text }}
-	</div>
-	
-	<hr/>
 	<div class="rulesPanel panel">
 		Basic Rules:
 		<li>Stay in your Room.
@@ -63,12 +23,9 @@
 		<li>Exchange hostages, call hostages to join leaders in between rooms</li>
 		<li>Start Timer - Whoever has access starts the timer in the app. (Skip if it's the last round)</li>
 		<li>Players return to their room as the next round as started</li>
-
-
 	</div>
 
 
-	<hr/>
 	<div class="glossary panel">
 		<li>Backup - Character that assumes powers of another character, if that character is not in play.
 		<li>Buried - A card out of play. 
@@ -88,17 +45,3 @@
 
 		<li>Swap - Exchange character cards with another player (through a Power)</li>
 	</div>
-
-
-	{% if player.host %}
-	<hr/>
-	<div class="startPanel panel">
-		<button class="startRound">Start Round Timer</button>
-	</div>
-	{% endif %}
-{% endblock %}
-
-{% block dataBlock %}
-	{% clientMultiData game gameSession player affiliation role %}
-
-{% endblock %}

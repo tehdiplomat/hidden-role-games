@@ -1,0 +1,12 @@
+.panel {
+	display: none;
+}
+
+.active {
+	display: block;
+}
+
+.control {
+	position: absolute;
+	bottom: 1px;
+}
