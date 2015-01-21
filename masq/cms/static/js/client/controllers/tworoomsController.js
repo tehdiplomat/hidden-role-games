@@ -18,6 +18,8 @@ require([
 		this.genericOnLoad();
 
 		this.setHandlers();
+
+		this.secondsRemaining = 60;
 	}
 
 	function TworoomsController_setHandlers() {
@@ -29,6 +31,7 @@ require([
 
 		this.setDomState();
 		this.setPanelControllers();
+		this.setTimerHandler();
 	}
 
 	function TworoomsController_initiateLocalPlayer() {
@@ -121,6 +124,8 @@ require([
 			
 			if (data['action'] == 'roundStart') {
 				// Assign all of this information into appropriate DOM spots
+				copy.secondsRemaining = data['secondsRemaining'];
+				$(".timeRemaining").text(copy.secondsRemaining);
 			} else {
 				console.log(data);
 			}
@@ -170,6 +175,24 @@ require([
 
 	}
 
+	function TworoomsController_setTimerHandler() {
+		var copy = this;
+
+		setInterval(function() {
+			if (copy.secondsRemaining > 0) {
+				copy.secondsRemaining--;
+			}
+			$(".timeRemaining").text(copy.secondsRemaining);
+
+			if (copy.secondsRemaining == 0) {
+				// Alert players!! 
+			}
+
+		}, 1000);
+
+
+	}
+
 
 	TworoomsController.prototype = new BaseController;
 	TworoomsController.prototype.constructor = TworoomsController;
@@ -180,5 +203,7 @@ require([
 	TworoomsController.prototype.updateCounts = TworoomsController_updateCounts;
 	TworoomsController.prototype.setPushHandlers = TworoomsController_setPushHandlers;
 	TworoomsController.prototype.setPanelControllers = TworoomsController_setPanelControllers;
+
+	TworoomsController.prototype.setTimerHandler = TworoomsController_setTimerHandler;
 	new TworoomsController();
 });
