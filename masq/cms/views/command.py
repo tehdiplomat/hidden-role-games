@@ -72,6 +72,9 @@ def startRound(data):
 
 	now = datetime.now()
 
+	session.currentRound = session.currentRound + 1
+	session.save()
+
 	resp = {'message': 'Round is starting', 
 			'action': 'roundStart', 
 			'round': session.currentRound, 

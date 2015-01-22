@@ -19,7 +19,7 @@ require([
 
 		this.setHandlers();
 
-		this.secondsRemaining = 60;
+		this.secondsRemaining = -1;
 	}
 
 	function TworoomsController_setHandlers() {
@@ -125,7 +125,10 @@ require([
 			if (data['action'] == 'roundStart') {
 				// Assign all of this information into appropriate DOM spots
 				copy.secondsRemaining = data['secondsRemaining'];
+				copy.session.currentRound = data['round'];
 				$(".timeRemaining").text(copy.secondsRemaining);
+				$(".currentRound").text(copy.session.currentRound);
+				$(".startRound").prop("disabled",true);
 			} else {
 				console.log(data);
 			}
@@ -141,6 +144,7 @@ require([
 
 		$(".startRound").click(function() {
 			activatePanel("roundPanel");
+			$(".startRound").prop("disabled",true);
 
 			if (copy.session.getCurrentRound() >= copy.session.getRounds()) {
 				// No more rounds are to be played
@@ -179,13 +183,17 @@ require([
 		var copy = this;
 
 		setInterval(function() {
-			if (copy.secondsRemaining > 0) {
+			if (copy.secondsRemaining >= 0) {
 				copy.secondsRemaining--;
 			}
 			$(".timeRemaining").text(copy.secondsRemaining);
 
 			if (copy.secondsRemaining == 0) {
 				// Alert players!! 
+				alert("ROUND OVER");
+				$(".startRound").prop("disabled",false);
+
+				// TODO Play a sound
 			}
 
 		}, 1000);

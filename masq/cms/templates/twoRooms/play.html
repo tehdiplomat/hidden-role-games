@@ -25,7 +25,7 @@
 
 	<div class="roundPanel panel active">
 		Round #<span class="currentRound">0</span>
-		Time Remaining: <span class="timeRemaining">0</span> seconds
+		Time Remaining: <span class="timeRemaining {% if player.host %}hostTimer{% endif %}">-1</span> seconds
 	</div>
 	
 	<div class="rolePanel panel">

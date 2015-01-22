@@ -35,13 +35,13 @@ class GameSession(BaseModel):
 		ordering = ['name']
 
 class GameSessionAdmin(admin.ModelAdmin):
-	list_display = ['id', 'name', 'game', 'status']
+	list_display = ['id', 'name', 'game', 'status', 'currentRound', 'rounds']
 	list_filter = ['name']
 
 # For serializing with django_rest_framework
 class GameSessionSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = GameSession
-		fields = ('id', 'name', 'game', 'status', 'roles')
+		fields = ('id', 'name', 'game', 'status', 'roles', 'currentRound', 'rounds')
 
 GameSession.serializer = GameSessionSerializer
