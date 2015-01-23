@@ -66,6 +66,9 @@
 {% endblock %}
 
 {% block dataBlock %}
-	{% clientMultiData  affiliation role games=game session=gameSession player=player %}
-
+	{% clientDataObj  affiliation %}
+	{% clientDataObj  role %}
+	{% clientDataObj  game %}
+	{% clientDataObj  gameSession %}
+	{% clientDataObj  player %}
 {% endblock %}

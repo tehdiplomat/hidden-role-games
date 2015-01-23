@@ -11,7 +11,7 @@ from django.template.loader import render_to_string
 from django.template.defaultfilters import date as formatDate
 from django.utils.html import escape
 
-from cms.utils import Utils as zcastUtils
+from cms.utils import Utils
 from cms.templatetags.basicFilters import toDatetimeString
 
 register = template.Library()
@@ -61,6 +61,19 @@ def showHelp(context, helpName):
 		'helpName': helpName
 	}
 
+
+@register.simple_tag
+def clientDataObj(data):
+	if data.FIELDS:
+		d = data.toDict(data.FIELDS)
+	else:
+		d = data.toDict()
+
+	json = escape(Utils.jsonWithDates([d]))
+
+	return "<input type='hidden' data-%s=\"%s\" data-json=\"%s\">" % ("model", data.__class__.__name__, json)
+
+
 @register.simple_tag
 def clientData(data, fieldName=None, alt=False, convert=True, model=False):
 	if not fieldName and hasattr(data, "model"):  # if no field name is provided, assume it's a standard queryset (or ValuesList)
@@ -84,7 +97,7 @@ def clientData(data, fieldName=None, alt=False, convert=True, model=False):
 			except:
 				data = data.toJSON()
 		else:
-			data = zcastUtils.jsonWithDates(data)
+			data = Utils.jsonWithDates(data)
 
 	data = escape(data)
 

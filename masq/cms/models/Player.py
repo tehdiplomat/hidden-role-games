@@ -9,6 +9,8 @@ from cms.models.GameSession import GameSession
 from cms.models.Role import Role
 
 class Player(BaseModel):
+	FIELDS = [ 'id', 'name', 'role', 'session','hidden', 'host', 'room' ]
+
 	name = models.CharField(max_length=32, default='Unnamed Player')
 	session = models.ForeignKey(GameSession, null=False)
 	role = models.ForeignKey(Role, null=True, blank=True)

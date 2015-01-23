@@ -49,6 +49,9 @@ require([
 			return false;
 		}
 
+		this.player = this.players[local];
+		this.session = this.gameSessions[this.player.getSession()];
+
 		return true;
 	}
 
@@ -121,7 +124,7 @@ require([
 		}
 
 		this.channel.bind('game', function(data) {
-			
+			console.log(data);
 			if (data['action'] == 'roundStart') {
 				// Assign all of this information into appropriate DOM spots
 				copy.secondsRemaining = data['secondsRemaining'];
@@ -130,7 +133,7 @@ require([
 				$(".currentRound").text(copy.session.currentRound);
 				$(".startRound").prop("disabled",true);
 			} else {
-				console.log(data);
+				
 			}
 		});
 	}
@@ -159,7 +162,7 @@ require([
 				'session': copy.session.getId()
 			}
 			Utils_sendCommand({'data': commandData}, function() {
-				console.log("In callback");
+				//console.log("In callback");
 				// DO THINGS
 			});
 		});

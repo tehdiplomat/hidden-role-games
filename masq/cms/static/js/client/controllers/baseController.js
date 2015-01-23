@@ -33,6 +33,7 @@ function BaseController_loadData(debug){
 			data = JSON.parse(data);
 		}
 
+		console.log(data);
 		if (elInfo.model) {
 			var Class = Utils_safeClass(elInfo.model);
 			if (!Class) {

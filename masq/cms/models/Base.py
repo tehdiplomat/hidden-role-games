@@ -46,6 +46,7 @@ class EmptyBaseQuerySet(models.query.EmptyQuerySet):
 		return '[]'
 
 class BaseModel(models.Model):
+	FIELDS = []
 	objects = BaseManager()
 	modified = models.DateTimeField(auto_now=True)
 
