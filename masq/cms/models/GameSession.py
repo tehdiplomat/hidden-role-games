@@ -29,6 +29,9 @@ class GameSession(BaseModel):
 	def __unicode__(self):
 		return u'%s' % (self.name)
 
+	def secondsPerRound(self):
+		return self.game.secondsPerRound(self.currentRound, self.rounds)
+
 	class Meta:
 		app_label = 'cms'
 		verbose_name_plural = 'gameSessions'

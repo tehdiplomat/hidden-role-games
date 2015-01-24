@@ -14,12 +14,13 @@ require([
 		BaseController.call(this);
 
 		this.fieldsToLoad = ["games", "gameSessions", "players", "affiliations", "roles"];
+		this.secondsRemaining = -1;
 
 		this.genericOnLoad();
 
 		this.setHandlers();
 
-		this.secondsRemaining = -1;
+		
 	}
 
 	function TworoomsController_setHandlers() {
@@ -130,8 +131,9 @@ require([
 				copy.secondsRemaining = data['secondsRemaining'];
 				copy.session.currentRound = data['round'];
 				$(".timeRemaining").text(copy.secondsRemaining);
-				$(".currentRound").text(copy.session.currentRound);
+				$(".currentRound").text(copy.session.currentRound);				
 				$(".startRound").prop("disabled",true);
+
 			} else {
 				
 			}
@@ -193,15 +195,24 @@ require([
 
 			if (copy.secondsRemaining == 0) {
 				// Alert players!! 
-				alert("ROUND OVER");
-				$(".startRound").prop("disabled",false);
+				if (copy.session.currentRound < copy.session.rounds) {
+					alert("ROUND OVER");
+					$(".startRound").prop("disabled",false);
+				} else {
+					alert("LAST ROUND OVER.. ");
+					// TODO Activate end of game panel
+				}
 
 				// TODO Play a sound
 			}
 
 		}, 1000);
 
-
+		if (this.session.currentRound > 0) {
+			// Reloaded page in the middle of a round. Try to calculate time remaining in round.
+			var diffSeconds = (Date.now() - roundStart) / 1000;
+			copy.secondsRemaining = Math.floor(roundTime - diffSeconds);
+		}
 	}
 
 

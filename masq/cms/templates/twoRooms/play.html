@@ -16,6 +16,8 @@
 
 {% block scripts %}
 	<script>
+		var roundStart = Date.parse("{{ roundStart }}");
+		var roundTime = {{ roundTime }};
 		var local = {{ player.id }};
 	</script>
 {% endblock %}
@@ -24,7 +26,7 @@
 	<h1>It's game time hoooooo!!!11</h1>
 
 	<div class="roundPanel panel active">
-		Round #<span class="currentRound">0</span>
+		Round #<span class="currentRound">{{ gameSession.currentRound }}</span>
 		Time Remaining: <span class="timeRemaining {% if player.host %}hostTimer{% endif %}">-1</span> seconds
 	</div>
 	

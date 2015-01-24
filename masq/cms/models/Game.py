@@ -14,7 +14,7 @@ class Game(BaseModel):
 
 
 	def secondsPerRound(self, round, totalRounds):
-		if self.name == 'tworooms':
+		if self.name == 'Two Rooms and a Boom':
 			return (totalRounds + 1 - round) * 60
 
 		return 0

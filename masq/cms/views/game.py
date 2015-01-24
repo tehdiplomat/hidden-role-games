@@ -102,5 +102,7 @@ def play(request):
 		'gameSession': session,
 		'role': role,
 		'player': pl,
-		'affiliation': affiliation
+		'affiliation': affiliation,
+		'roundStart': str(session.modified),
+		'roundTime': session.secondsPerRound()
 	}, context_instance=RequestContext(request))

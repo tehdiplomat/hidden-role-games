@@ -79,7 +79,7 @@ def startRound(data):
 			'action': 'roundStart', 
 			'round': session.currentRound, 
 			#'startDatetime': str(now), 
-			'secondsRemaining': session.game.secondsPerRound(session.currentRound, session.rounds)}
+			'secondsRemaining': session.secondsPerRound() }
 
 	push = pusher.Pusher(app_id=settings.PUSHER_APP, key=settings.PUSHER_KEY, secret=settings.PUSHER_SECRET)
 
