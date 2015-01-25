@@ -24,24 +24,36 @@
 {% block content %}
 	<h1 class="pageTitle">Game Session Lobby</h1>
 	
-	Made it to the lobby!!!11
+	
+	<div class="lobbyPanel">
+		{% with gameSessions|first as session %}
+		Game: {{ session.game.name }}<br/>
+
+		Game Rounds: 
+		<span class="sessionRounds">{{ session.rounds }}</span> 
+		{% if player.host %}<button class="changeRounds">Change Rounds</button> {% endif %}
+		
+		{% endwith %}
+		<hr/>
+	</div>
 
 	<div class="selfPanel panel">
 		Name: <input type="text" class="playerName" /><br/>
 		Pin: <input type="text" class="playerPin" /><br/>
 		Host: <input type="checkbox" class="playerHost" disabled /><br/>
 		<button class="editPlayer">Save</button>
+		<hr/>
 	</div>
 
-	<hr/>
+	
 
 	<div class="invitePanel panel">
 		Have other players scan this QR code to join the game.
 		<div class="qrCode" id="inviteQR">
 		</div>
+		<hr/>
 	</div>
 
-	<hr/>
 	<div class="playerPanel panel">
 	Player (<span class="playerCount">{{ players.count }}</span>)
 	{% for pl in players %} 
@@ -49,10 +61,10 @@
 			<img src="/static/img/user.png" class="waiting playerIcon" />{{ pl.name }} 
 		</li>
 	{% endfor %}
+	<hr/>
 	</div>
 
 	
-	<hr/>
 	<div class="rolePanel panel">
 		<div class="subpanel inactiveRoles">
 			Available Roles (<span class="roleCount">{{ roles.count }}</span>)
@@ -72,10 +84,10 @@
 			Chosen Roles (<span class="roleCount">0</span>)
 			
 		</div>
+		<hr/>
 	</div>
 	
 	{% if player.host %}
-	<hr/>
 	<div class="startPanel panel">
 		<button class="startSession">Assign Player Roles</button>
 	</div>

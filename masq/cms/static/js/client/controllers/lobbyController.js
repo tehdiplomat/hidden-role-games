@@ -200,6 +200,8 @@ require([
 			if (data['action'] == 'rolesAssigned') {
 				// Is that allowed? Or do we have to just show a button for people to push?
 				window.location.href = '/masq/play';
+			} else if (data['action'] == 'roundsChanged') {
+				$(".sessionRounds").text(data['rounds']);
 			} else {
 				console.log(data);
 			}

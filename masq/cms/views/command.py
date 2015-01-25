@@ -4,7 +4,7 @@ from datetime import datetime
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, Http404, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from cms.models import GameSession, Player, Role
@@ -18,14 +18,14 @@ def command(request):
 	#print "Lights, camera", action
 
 	if not action:
-		return Http404
+		return HttpResponseBadRequest
 
 	if action == 'startSession':
 		resp = startSession(data)
 	elif action == 'startRound':
 		resp = startRound(data)
 	else:
-		return Http404
+		return HttpResponseBadRequest("Unknown command action.")
 
 	if resp == None:
 		resp = HttpResponse()
@@ -38,7 +38,7 @@ def startSession(data):
 	#print "Sessioning"
 	session = GameSession.objects.get(id=sess)
 	if session.status != GameSession.STATUS_LOBBY:
-		return Http404
+		return HttpResponseBadRequest("Status not set to Lobby. Can't start a session that's already been started.")
 
 	#print "Retrieving things"
 	#roleIds = data.get('roles', '').split(',')
@@ -49,7 +49,7 @@ def startSession(data):
 
 	#print "About to assign roles"
 	if assignRoles(session, chosenRoles, genericRoles, players):
-		return Http404
+		return HttpResponseBadRequest("Failed to assign roles, mismatched teams?")
 
 	session.update(status=GameSession.STATUS_ACTIVE)
 
@@ -68,7 +68,7 @@ def startRound(data):
 	session = GameSession.objects.get(id=sess)
 
 	if session.status != GameSession.STATUS_ACTIVE:
-		return Http404
+		return HttpResponseBadRequest("Session is not Active. Cannot start rounds.")
 
 	now = datetime.now()
 

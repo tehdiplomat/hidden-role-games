@@ -211,7 +211,11 @@ require([
 		if (this.session.currentRound > 0) {
 			// Reloaded page in the middle of a round. Try to calculate time remaining in round.
 			var diffSeconds = (Date.now() - roundStart) / 1000;
-			copy.secondsRemaining = Math.floor(roundTime - diffSeconds);
+			copy.secondsRemaining = Math.max(-1, Math.floor(roundTime - diffSeconds));
+
+			if (copy.secondsRemaining > 0) {
+				$(".startRound").prop("disabled",true);
+			}
 		}
 	}
 
