@@ -33,6 +33,8 @@ def lobby(request, id=None):
 	init = request.GET.get('init', None)
 	player = None
 
+	gameName = list(game[:1])[0].name
+
 	if init == 'host':
 		# Should this really be a get or create?
 		player = Player.objects.get_or_create(session=session[0], host=True)[0]
@@ -77,7 +79,9 @@ def lobby(request, id=None):
 		'players': players,
 		'affiliations': affiliations,
 		'roles': roles,
-		'inviteURL': inviteURL
+		'inviteURL': inviteURL,
+		'shortRounds': settings.ROUNDS[gameName]['short'],
+		'longRounds': settings.ROUNDS[gameName]['long']
 	}, context_instance=RequestContext(request))
 
 

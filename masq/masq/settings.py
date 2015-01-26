@@ -78,7 +78,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
@@ -90,6 +89,15 @@ TEMPLATE_DIRS = (
 )
 
 MQ_VERSION = 1
+
+ROUNDS = {
+	'Two Rooms and a Boom': {
+		'short': 3,
+		'long': 5
+	}
+}
+
+
 
 # Pusher for server pushes (Override these values with your api keys in local_settings)
 PUSHER_APP = '12345'

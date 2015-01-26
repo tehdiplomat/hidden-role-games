@@ -18,6 +18,8 @@
 	<script>
 		var local = {{ player.id }};
 		var inviteURL = "{{ inviteURL }}";
+		var shortRounds = {{ shortRounds }};
+		var longRounds = {{ longRounds }};
 	</script>
 {% endblock %}
 
@@ -31,7 +33,10 @@
 
 		Game Rounds: 
 		<span class="sessionRounds">{{ session.rounds }}</span> 
-		{% if player.host %}<button class="changeRounds">Change Rounds</button> {% endif %}
+		{% if player.host %}
+			<button class="shortRounds gameRounds" data-rounds={{shortRounds}} {% if shortRounds == session.rounds %}disabled{% endif %}>Short Game</button>
+			<button class="longRounds gameRounds" data-rounds={{longRounds}} {% if longRounds == session.rounds %}disabled{% endif %}>Long Game</button> 
+		{% endif %}
 		
 		{% endwith %}
 		<hr/>

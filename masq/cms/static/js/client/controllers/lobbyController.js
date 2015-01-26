@@ -116,6 +116,36 @@ require([
 				// DO THINGS
 			});
 		});
+
+		$(".shortRounds").click(function() {
+			copy.session.setRounds(shortRounds);
+			copy.session.update({"changedFields": [ "rounds" ], "callback": function() {
+				// Flip disabled buttons
+				if (this.failed) {
+					console.log("Failed to set the number of rounds.");
+				} else {
+					alterRounds(shortRounds);
+				}
+			} });
+		});
+
+		$(".longRounds").click(function() {
+			copy.session.setRounds(longRounds);
+			copy.session.update({"changedFields": [ "rounds" ], "callback": function() {
+				// Flip disabled buttons
+				if (this.failed) {
+					console.log("Failed to set the number of rounds.");
+				} else {
+					alterRounds(longRounds);
+				}
+			} });
+		});
+
+		function alterRounds(num) {
+			$(".sessionRounds").text(num);
+			$(".gameRounds").prop("disabled", false);
+			$(".gameRounds[data-rounds='" + num + "']").prop("disabled", true);
+		}
 	}
 
 	function LobbyController_setInviteHandler() {
