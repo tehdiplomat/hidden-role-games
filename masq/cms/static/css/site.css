@@ -1,17 +1,25 @@
 header {
 	height: 30px
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: auto;
 }
 
 .menu {
 	text-decoration: none;
 	color: orange;
-	position: absolute;
 	right: 5px;
 }
 
 .logo{
-	position: absolute;
 	left: 5px;
+}
+
+.pageTitle {
+	flex: 1;
+	text-align: center;
 }
 
 body{

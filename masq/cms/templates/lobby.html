@@ -23,10 +23,9 @@
 	</script>
 {% endblock %}
 
+{% block pageTitle %}Game Session Lobby{% endblock %}
+
 {% block content %}
-	<h1 class="pageTitle">Game Session Lobby</h1>
-	
-	
 	<div class="lobbyPanel">
 		{% with gameSessions|first as session %}
 		Game: {{ session.game.name }}<br/>

@@ -22,9 +22,9 @@
 	</script>
 {% endblock %}
 
-{% block content %}
-	<h1>It's game time hoooooo!!!11</h1>
+{% block pageTitle %}{{ gameSession.name }}{% endblock %}
 
+{% block content %}
 	<div class="roundPanel panel active">
 		Round #<span class="currentRound">{{ gameSession.currentRound }}</span>
 		Time Remaining: <span class="timeRemaining {% if player.host %}hostTimer{% endif %}">-1</span> seconds
