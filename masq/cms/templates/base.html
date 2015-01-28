@@ -33,9 +33,11 @@
 					{% endblock %}
 					
 					<div class="pageTitle">{% block pageTitle %}ADD A Title{% endblock %}</div>
-					<a class="menu" href="#menu">&#9776;</a>
+					<div class="menu">&#9776;</div>
 				{% endblock %}
 			</header>
+			<div id="mainOverlay"></div>
+
 			<div id="mainArea" class="row full-width">
 				{% block mainArea %}
 				<section id="mainSection" class="column">
@@ -43,14 +45,16 @@
 					{% block content %}{% endblock %}
 				</article>
 				</section>
-				<section id="panelControl" class="column">
-					<article>
-						{% block panelControl %}{% endblock %}
-					</article>
-				</section>
 				{% endblock %}
 			{% endblock %}
 			</div>
+
+			<nav class="menuBar">
+				<ul>
+					{% block menuItems %}{% endblock %}
+				</ul>
+			</nav>
+
 			<div id="data" class="hidden">
 				{% block dataBlock %}{% endblock %}
 			</div>

@@ -33,7 +33,8 @@ def lobby(request, id=None):
 	init = request.GET.get('init', None)
 	player = None
 
-	gameName = list(game[:1])[0].name
+	g = list(game[:1])[0]
+	gameName = g.name
 
 	if init == 'host':
 		# Should this really be a get or create?
@@ -72,7 +73,12 @@ def lobby(request, id=None):
 	players = Player.objects.filter(session=session)
 	inviteURL = '%smasq/lobby/%s/?init=join' % (settings.SITE_URL, id)
 
+	folder = g.template if g.template else ''
+	playTemplate = '%splay.html' % folder
+	refTemplate = '%sreference.html' % folder
+
 	return render_to_response('lobby.html', {
+		'refTemplate': refTemplate,
 		'games': game,
 		'gameSessions': session,
 		'player': player,
@@ -96,14 +102,17 @@ def play(request):
 	game = session.game
 	role = pl.role
 	affiliation = role.affiliation
+	chosenRoles = (session.roles.all() | Role.objects.filter(game=game, generic=True)).distinct()
 
 	folder = game.template if game.template else ''
 	playTemplate = '%splay.html' % folder
-	refTemplate = '%reference.html' % folder
+	refTemplate = '%sreference.html' % folder
 
 	return render_to_response(playTemplate, {
+		'refTemplate': refTemplate,
 		'game': game,
 		'gameSession': session,
+		'roles': chosenRoles,
 		'role': role,
 		'player': pl,
 		'affiliation': affiliation,

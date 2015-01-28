@@ -28,13 +28,54 @@
 	<div class="roundPanel panel active">
 		Round #<span class="currentRound">{{ gameSession.currentRound }}</span>
 		Time Remaining: <span class="timeRemaining {% if player.host %}hostTimer{% endif %}">-1</span> seconds
+
+		<br/><br/>
+		{% if player.host %}
+			<button class="startRound">Start Timer</button>
+		{% endif %}
+
+		{% if session.roles.count > 9 %}
+			<button class="colorReveal">Color Reveal</button>
+		{% endif %}
+		<button class="cardReveal">Card Reveal</button>
 	</div>
 	
-	<div class="rolePanel panel">
+	<div class="myPanel panel">
 		Starting Room: #{{ player.room }} <br/>
 		Your Affiliation is: {{ affiliation }} <br/>
 		Your Role is: {{ role.name }} <br/>
 		Rules text: {{ role.text }}
+	</div>
+
+	<div class="playerPanel panel">
+		<div class="panelGroup">
+			<div class="subpanel">
+				Player (<span class="playerCount">{{ players.count }}</span>)
+			{% for pl in players %} 
+				<li class="player" data-id="{{pl.id}}">
+					<img src="/static/img/user.png" class="waiting playerIcon" />{{ pl.name }} 
+				</li>
+			{% endfor %}
+			</div>
+			<div class="invitePanel subpanel">
+				Have other players scan this QR code to join the game.
+				<div class="qrCode" id="inviteQR"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="rolePanel panel">
+		<div class="panelGroup">
+			<div class="subpanel activeRoles">
+				Chosen Roles  (<span class="roleCount">{{ roles.count }}</span>)
+			{% for role in roles %}
+				<li class="role" data-id="{{role.id}}">
+					{{ role.name }}
+				</li>
+			{% endfor %}
+				
+			</div>
+		</div>
 	</div>
 
 	<div class="colorPanel panel">
@@ -47,27 +88,23 @@
 		Rules text: {{ role.text }}
 	</div>
 	
-	{% include "twoRooms/reference.html" %}
+	{% include refTemplate %}
 {% endblock %}
 
 
-{% block panelControl %}
-	<div class="control">
-	{% if player.host %}
-		<button class="startRound">Start Timer</button>
-	{% endif %}
-		<button class="displayTimer">Countdown</button>
-	{% if session.roles.count > 9 %}
-		<button class="colorReveal">Color Reveal</button>
-	{% endif %}
-		<button class="cardReveal">Card Reveal</button>
-
-
-	</div>
-
+{% block menuItems %}
+<li class="menuItem" data-panel="roundPanel">Game Info</li>
+<li class="menuItem" data-panel="myPanel">My Info</li>
+<li class="menuItem" data-panel="playerPanel">Players</li>
+<li class="menuItem" data-panel="rolePanel">Roles</li>
+<li class="menuItem" data-panel="colorPanel">Color Reveal</li>
+<li class="menuItem" data-panel="cardPanel">Card Reveal</li>
+<li class="menuItem" data-panel="rulesPanel">Reference</li>
 {% endblock %}
 
 {% block dataBlock %}
+	{% clientMultiData roles %}
+
 	{% clientDataObj  affiliation %}
 	{% clientDataObj  role %}
 	{% clientDataObj  game %}

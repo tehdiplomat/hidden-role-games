@@ -60,6 +60,7 @@ function BaseController_setGenericHandlers(parent) {
 	if (arguments.length === 0)
 		parent = $("html");
 
+	this.setMenuHandler();
 	//button text shouldn't be selectable
 	//$(".button").disableSelection();
 
@@ -110,10 +111,71 @@ function BaseController_genericSubscribePusher(channel) {
 	//});
 }
 
+function BaseController_setMenuHandler() {
+	//Open the menu
+	// Change to classes
+	$(".menu").click(function() {
+
+		$('#mainArea').css('min-height', $(window).height());
+
+		$('nav').css('opacity', 1);
+		$('nav').css('z-index', 1);
+
+		//set the width of primary content container -> content should not scale while animating
+		var contentWidth = $('#mainArea').width();
+
+		//set the content with the width that it has originally
+		$('#content').css('width', contentWidth);
+
+		//display a layer to disable clicking and scrolling on the content while menu is shown
+		$('#mainOverlay').css('display', 'block');
+
+		//disable all scrolling on mobile devices while menu is shown
+		$('#page').bind('touchmove', function (e) {
+			e.preventDefault()
+		});
+
+		//set margin for the whole page with a $ UI animation
+		$("#page").animate({"marginRight": "30%"}, {
+			duration: 200
+		});
+
+	});
+
+	//close the menu
+	$("#mainOverlay").click(function() {
+		//enable all scrolling on mobile devices when menu is closed
+		$('#page').unbind('touchmove');
+
+		//set margin for the whole page back to original state with a $ UI animation
+		$("#page").animate({"marginRight": "-1" }, {
+			duration: 200,
+			complete: function () {
+				$('#mainArea').css('width', 'auto');
+				$('#mainOverlay').css('display', 'none');
+				$('nav').css('opacity', 0);
+				$('nav').css('z-index', -1);
+				$('#mainArea').css('min-height', 'auto');
+			}
+		});
+	});
+
+	$("nav li").click(function() {
+		// Activate chosen panel
+		var panel = $(this).data("panel");
+
+		$(".panel").removeClass("active");
+		$("."+panel).addClass("active");
+		$("#mainOverlay").click();
+
+	});
+}
+
 BaseController.prototype.constructor = BaseController;
 BaseController.prototype.loadData = BaseController_loadData;
 BaseController.prototype.genericOnLoad = BaseController_genericOnLoad;
 BaseController.prototype.setGenericHandlers = BaseController_setGenericHandlers;
+BaseController.prototype.setMenuHandler = BaseController_setMenuHandler;
 BaseController.prototype.genericSubscribePusher = BaseController_genericSubscribePusher;
 
 return BaseController;

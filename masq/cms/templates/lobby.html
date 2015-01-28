@@ -26,76 +26,86 @@
 {% block pageTitle %}Game Session Lobby{% endblock %}
 
 {% block content %}
-	<div class="lobbyPanel">
-		{% with gameSessions|first as session %}
-		Game: {{ session.game.name }}<br/>
+	<div class="lobbyPanel panel active">
+		<div class="panelGroup">
+			<div class="gamePanel subpanel">
+			{% with gameSessions|first as session %}
+				Game: {{ session.game.name }}<br/>
 
-		Game Rounds: 
-		<span class="sessionRounds">{{ session.rounds }}</span> 
-		{% if player.host %}
-			<button class="shortRounds gameRounds" data-rounds={{shortRounds}} {% if shortRounds == session.rounds %}disabled{% endif %}>Short Game</button>
-			<button class="longRounds gameRounds" data-rounds={{longRounds}} {% if longRounds == session.rounds %}disabled{% endif %}>Long Game</button> 
-		{% endif %}
-		
-		{% endwith %}
-		<hr/>
-	</div>
+				Game Rounds: 
+				<span class="sessionRounds">{{ session.rounds }}</span> 
+			{% if player.host %}
+				<button class="shortRounds gameRounds" data-rounds={{shortRounds}} {% if shortRounds == session.rounds %}disabled{% endif %}>Short Game</button>
+				<button class="longRounds gameRounds" data-rounds={{longRounds}} {% if longRounds == session.rounds %}disabled{% endif %}>Long Game</button> 
+			{% endif %}
+			{% endwith %}
 
-	<div class="selfPanel panel">
-		Name: <input type="text" class="playerName" /><br/>
-		Pin: <input type="text" class="playerPin" /><br/>
-		Host: <input type="checkbox" class="playerHost" disabled /><br/>
-		<button class="editPlayer">Save</button>
-		<hr/>
-	</div>
+			{% if player.host %}
+				<br/>
+				<button class="startSession">Assign Roles</button>
+			{% endif %}
+			</div>
 
-	
-
-	<div class="invitePanel panel">
-		Have other players scan this QR code to join the game.
-		<div class="qrCode" id="inviteQR">
+			<div class="selfPanel subpanel">
+				Name: <input type="text" class="playerName" /><br/>
+				Pin: <input type="text" class="playerPin" /><br/>
+				Host: <input type="checkbox" class="playerHost" disabled /><br/>
+				<button class="editPlayer">Save</button>
+			</div>
 		</div>
-		<hr/>
 	</div>
+
+
 
 	<div class="playerPanel panel">
-	Player (<span class="playerCount">{{ players.count }}</span>)
-	{% for pl in players %} 
-		<li class="player" data-id="{{pl.id}}">
-			<img src="/static/img/user.png" class="waiting playerIcon" />{{ pl.name }} 
-		</li>
-	{% endfor %}
-	<hr/>
+		<div class="panelGroup">
+			<div class="subpanel">
+				Player (<span class="playerCount">{{ players.count }}</span>)
+			{% for pl in players %} 
+				<li class="player" data-id="{{pl.id}}">
+					<img src="/static/img/user.png" class="waiting playerIcon" />{{ pl.name }} 
+				</li>
+			{% endfor %}
+			</div>
+			<div class="invitePanel subpanel">
+				Have other players scan this QR code to join the game.
+				<div class="qrCode" id="inviteQR"></div>
+			</div>
+		</div>
 	</div>
 
 	
 	<div class="rolePanel panel">
-		<div class="subpanel inactiveRoles">
-			Available Roles (<span class="roleCount">{{ roles.count }}</span>)
-		{% for role in roles %}
-			<li class="role" data-id="{{role.id}}">
-			{% if player.host %}
-				<button class="removeRole">-</button>
-			{% endif %}
-				{{ role.name }}
-			{% if player.host %}
-				<button class="addRole">+</button>
-			{% endif %}
-			</li>
-		{% endfor %}
+		<div class="panelGroup">
+			<div class="subpanel inactiveRoles">
+				Available Roles (<span class="roleCount">{{ roles.count }}</span>)
+			{% for role in roles %}
+				<li class="role" data-id="{{role.id}}">
+				{% if player.host %}
+					<button class="removeRole">-</button>
+				{% endif %}
+					{{ role.name }}
+				{% if player.host %}
+					<button class="addRole">+</button>
+				{% endif %}
+				</li>
+			{% endfor %}
+			</div>
+			<div class="subpanel activeRoles">
+				Chosen Roles (<span class="roleCount">0</span>)
+				
+			</div>
 		</div>
-		<div class="subpanel activeRoles">
-			Chosen Roles (<span class="roleCount">0</span>)
-			
-		</div>
-		<hr/>
 	</div>
-	
-	{% if player.host %}
-	<div class="startPanel panel">
-		<button class="startSession">Assign Player Roles</button>
-	</div>
-	{% endif %}
+
+	{% include refTemplate %}
+{% endblock %}
+
+{% block menuItems %}
+<li class="menuItem" data-panel="lobbyPanel">Game Info</li>
+<li class="menuItem" data-panel="playerPanel">Players</li>
+<li class="menuItem" data-panel="rolePanel">Roles</li>
+<li class="menuItem" data-panel="rulesPanel">Reference</li>
 {% endblock %}
 
 {% block dataBlock %}

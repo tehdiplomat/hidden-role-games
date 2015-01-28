@@ -1,20 +1,26 @@
+body{
+	clear: both;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
 header {
-	height: 30px
+	height: 35px;
 	width: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	margin: auto;
-}
-
-.menu {
-	text-decoration: none;
+	margin-bottom: 10px;
+	z-index: 1;
+	box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.4);
+	background-color: #3b5998;
 	color: orange;
-	right: 5px;
 }
 
 .logo{
-	left: 5px;
+	padding-left: 5px;
 }
 
 .pageTitle {
@@ -22,6 +28,76 @@ header {
 	text-align: center;
 }
 
-body{
-	clear: both;
+.hidden {
+	display: none;
+}
+
+/* MENU BAR / NAV */
+.menu {
+	text-decoration: none;
+	color: orange;
+	right: 5px;
+	cursor: pointer;
+	padding-right: 5px;
+	border-radius: 3px 3px 3px 3px;
+}
+
+#mainOverlay {
+	display: none;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 70%;
+	z-index: 5;
+}
+
+
+nav {
+	opacity: 0;
+	right: 0px;
+	top: 0px;
+	position: fixed;
+	z-index: -1;
+	width: 30%;
+	height: 100%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	background: #3e3c3d;
+	background: -moz-linear-gradient(top, #3e3c3d 0%, #2d2c2d 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3e3c3d), color-stop(100%, #2d2c2d));
+	background: -webkit-linear-gradient(top, #3e3c3d 0%, #2d2c2d 100%);
+	background: -o-linear-gradient(top, #3e3c3d 0%, #2d2c2d 100%);
+	background: -ms-linear-gradient(top, #3e3c3d 0%, #2d2c2d 100%);
+	background: linear-gradient(to bottom, #3e3c3d 0%, #2d2c2d 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3e3c3d', endColorstr='#2d2c2d', GradientType=0);
+}
+
+nav ul {
+	list-style: none;
+	margin: 0;
+	width: 100%;
+	padding: 0;
+}
+
+nav li {
+	position: relative;
+	font-size: 1em;
+	font-weight: bold;
+	color: orange;
+	border-bottom: 1px solid #222222;
+	border-top: 1px solid #444444;
+	padding: 15px;
+	cursor: pointer;
+}
+
+#mainArea {
+	position: relative;
+	width: auto;
+	height: 100%;
 }

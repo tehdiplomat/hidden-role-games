@@ -22,13 +22,26 @@
 	list-style: none;
 }
 
+.panel {
+	display: none;
+}
+
+.active {
+	display: block;
+}
+
+.panelGroup {
+	display: flex;
+}
+
 .subpanel {
-	width: 50%;
+	flex: 1;
 }
 
 .role {
 	flex-flow: column;
 }
+
 
 ul, li {
 	padding: 0px;
