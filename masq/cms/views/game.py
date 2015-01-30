@@ -18,6 +18,9 @@ def start(request):
 	}, context_instance=RequestContext(request))
 
 def lobby(request, id=None):
+	if not request.session.get('has_session'):
+		request.session['has_session'] = True
+	
 	session = GameSession.objects.filter(id=id)
 
 	if not session.count():
@@ -103,6 +106,7 @@ def play(request):
 	role = pl.role
 	affiliation = role.affiliation
 	chosenRoles = (session.roles.all() | Role.objects.filter(game=game, generic=True)).distinct()
+	players = Player.objects.filter(session=session)
 
 	folder = game.template if game.template else ''
 	playTemplate = '%splay.html' % folder
@@ -114,6 +118,7 @@ def play(request):
 		'gameSession': session,
 		'roles': chosenRoles,
 		'role': role,
+		'players': players,
 		'player': pl,
 		'affiliation': affiliation,
 		'roundStart': str(session.modified),

@@ -51,7 +51,8 @@ def startSession(data):
 	if assignRoles(session, chosenRoles, genericRoles, players):
 		return HttpResponseBadRequest("Failed to assign roles, mismatched teams?")
 
-	session.update(status=GameSession.STATUS_ACTIVE)
+	session.status=GameSession.STATUS_ACTIVE
+	session.save()
 
 	# TODO Generalize pushing mechanic
 	#print "Pre push"

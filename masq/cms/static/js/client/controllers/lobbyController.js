@@ -117,6 +117,11 @@ require([
 			});
 		});
 
+
+		$(".joinInProgress").click(function() {
+			window.location.href = '/masq/play';
+		});
+
 		$(".shortRounds").click(function() {
 			copy.session.setRounds(shortRounds);
 			copy.session.update({"changedFields": [ "rounds" ], "callback": function() {

@@ -38,12 +38,16 @@
 				<button class="shortRounds gameRounds" data-rounds={{shortRounds}} {% if shortRounds == session.rounds %}disabled{% endif %}>Short Game</button>
 				<button class="longRounds gameRounds" data-rounds={{longRounds}} {% if longRounds == session.rounds %}disabled{% endif %}>Long Game</button> 
 			{% endif %}
-			{% endwith %}
+			
 
-			{% if player.host %}
 				<br/>
+			{% if player.host %}
 				<button class="startSession">Assign Roles</button>
 			{% endif %}
+			{% if session.status == 'active' %}
+				<button class="joinInProgress">Join in Progress</button>
+			{% endif %}
+			{% endwith %}
 			</div>
 
 			<div class="selfPanel subpanel">
