@@ -10,6 +10,7 @@ class Affiliation(BaseModel):
 	name = models.CharField(max_length=32, default='Unnamed Affiliation')
 	game = models.ForeignKey(Game, null=False)
 	text = models.TextField(blank=True)
+	styling = models.TextField(blank=True)
 	primary = models.BooleanField(default=True)
 
 	def __unicode__(self):

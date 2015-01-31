@@ -10,3 +10,50 @@
 	position: absolute;
 	bottom: 1px;
 }
+
+.card {
+	margin-left: 10px;
+	border: 5px groove black;
+	width: 300px;
+	height: 450px;
+	background-color: light-gray;
+}
+
+.blueteam {
+	background-color: #333399;
+}
+
+.redteam {
+	background-color: #DD2200;
+}
+
+.card .role {
+	height: 25px;
+}
+
+.card .avatar {
+	height: 150px;
+}
+
+.card .rules {
+	height: 250px;
+} 
+
+.card .affiliation {
+	height: 25px;
+}
+
+.playerIcon {
+	width: 32px;
+	height: 32px;
+	position: relative;
+	top: 5px;
+}
+
+.playerIcon.active {
+	display: inline;
+}
+
+.playerIcon.waiting {
+	opacity: .2;
+}

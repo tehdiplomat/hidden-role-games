@@ -142,10 +142,6 @@ require([
 
 	function TworoomsController_setPanelControllers() {
 		var copy = this;
-		function activatePanel(panel) {
-			$(".panel").removeClass("active");
-			$("."+panel).addClass("active");
-		}
 
 		$(".startRound").click(function() {
 			activatePanel("roundPanel");
@@ -196,11 +192,13 @@ require([
 			if (copy.secondsRemaining == 0) {
 				// Alert players!! 
 				if (copy.session.currentRound < copy.session.rounds) {
-					alert("ROUND OVER");
+					$(".alarm")[0].play();
 					$(".startRound").prop("disabled",false);
+					alert("ROUND OVER");					
 				} else {
+					$(".alarm")[0].play();
 					alert("LAST ROUND OVER.. ");
-					// TODO Activate end of game panel
+					activatePanel("endPanel");
 				}
 
 				// TODO Play a sound
@@ -219,6 +217,11 @@ require([
 		}
 	}
 
+
+	function activatePanel(panel) {
+		$(".panel").removeClass("active");
+		$("."+panel).addClass("active");
+	}
 
 	TworoomsController.prototype = new BaseController;
 	TworoomsController.prototype.constructor = TworoomsController;

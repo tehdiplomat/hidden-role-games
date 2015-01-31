@@ -33,11 +33,6 @@
 		{% if player.host %}
 			<button class="startRound">Start Timer</button>
 		{% endif %}
-
-		{% if session.roles.count > 9 %}
-			<button class="colorReveal">Color Reveal</button>
-		{% endif %}
-		<button class="cardReveal">Card Reveal</button>
 	</div>
 	
 	<div class="myPanel panel">
@@ -54,12 +49,9 @@
 			{% for pl in players %} 
 				<li class="player" data-id="{{pl.id}}">
 					<img src="/static/img/user.png" class="waiting playerIcon" />{{ pl.name }} 
+					(Initial Room => {{ pl.room }})
 				</li>
 			{% endfor %}
-			</div>
-			<div class="invitePanel subpanel">
-				Have other players scan this QR code to join the game.
-				<div class="qrCode" id="inviteQR"></div>
 			</div>
 		</div>
 	</div>
@@ -79,15 +71,32 @@
 	</div>
 
 	<div class="colorPanel panel">
-		Your Affiliation is: {{ affiliation }} <br/>
+		<div class="card {{ affiliation.styling }}">
+			<div class="role"></div>
+			<div class="avatar"></div>
+			<div class="rules"></div>
+			<div class="affiliation">{{ affiliation }}</div>
+		</div>
 	</div>
 
 	<div class="cardPanel panel">
-		Your Affiliation is: {{ affiliation }} <br/>
-		Your Role is: {{ role.name }} <br/>
-		Rules text: {{ role.text }}
+		<div class="card {{ affiliation.styling }}">
+			<div class="role">{{ role.name }}</div>
+			<div class="avatar"></div>
+			<div class="rules">{{ role.text }}</div>
+			<div class="affiliation">{{ affiliation }}</div>
+		</div>
 	</div>
-	
+
+	<div class="endPanel panel">
+		The game has just ended! Now before everyone reveals their role, make sure anyone with an end game power handles it in turn. <br/>
+		After each player resolves their end game power, everyone should <button class="cardReveal">Reveal your Role</button>
+	</div>
+
+	<audio preload="auto" class="alarm">
+		<source src="{{ STATIC_URL }}media/siren.mp3" />
+	</audio> 
+
 	{% include refTemplate %}
 {% endblock %}
 
@@ -97,7 +106,9 @@
 <li class="menuItem" data-panel="myPanel">My Info</li>
 <li class="menuItem" data-panel="playerPanel">Players</li>
 <li class="menuItem" data-panel="rolePanel">Roles</li>
+{% if session.roles.count > 9 %}
 <li class="menuItem" data-panel="colorPanel">Color Reveal</li>
+{% endif %}
 <li class="menuItem" data-panel="cardPanel">Card Reveal</li>
 <li class="menuItem" data-panel="rulesPanel">Reference</li>
 {% endblock %}

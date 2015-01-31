@@ -5,6 +5,10 @@
 	top: 5px;
 }
 
+.playerIcon.active {
+	display: inline;
+}
+
 .waiting {
 	opacity: .2;
 }
