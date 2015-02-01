@@ -213,6 +213,10 @@ require([
 
 			if (copy.secondsRemaining > 0) {
 				$(".startRound").prop("disabled",true);
+			} else {
+				if (this.session.currentRound >= this.session.rounds) {
+					activatePanel("endPanel");
+				}
 			}
 		}
 	}

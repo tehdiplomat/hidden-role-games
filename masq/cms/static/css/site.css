@@ -101,3 +101,7 @@ nav li {
 	width: auto;
 	height: 100%;
 }
+
+.ruleDetail {
+	display: none;
+}
