@@ -61,6 +61,7 @@ function BaseController_setGenericHandlers(parent) {
 		parent = $("html");
 
 	this.setMenuHandler();
+	this.setReferenceHandler();
 	//button text shouldn't be selectable
 	//$(".button").disableSelection();
 
@@ -171,11 +172,26 @@ function BaseController_setMenuHandler() {
 	});
 }
 
+function BaseController_setReferenceHandler() {
+	//Open the menu
+	var copy = this;
+	$(".ruleTopic").click(function() {
+		var parent = $(this).parent();
+		if ($(".ruleDetail", parent).hasClass("expand")) {
+			$(".ruleDetail").removeClass("expand");
+		} else {
+			$(".ruleDetail").removeClass("expand");
+			$(".ruleDetail", parent).addClass("expand");
+		}
+	});
+}
+
 BaseController.prototype.constructor = BaseController;
 BaseController.prototype.loadData = BaseController_loadData;
 BaseController.prototype.genericOnLoad = BaseController_genericOnLoad;
 BaseController.prototype.setGenericHandlers = BaseController_setGenericHandlers;
 BaseController.prototype.setMenuHandler = BaseController_setMenuHandler;
+BaseController.prototype.setReferenceHandler = BaseController_setReferenceHandler;
 BaseController.prototype.genericSubscribePusher = BaseController_genericSubscribePusher;
 
 return BaseController;
