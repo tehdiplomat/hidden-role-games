@@ -5,6 +5,7 @@ from rest_framework import serializers
 
 from cms.models.Base import BaseModel
 from cms.models.Game import Game
+from cms.utils.Utils import getUploadPath
 
 class Affiliation(BaseModel):
 	name = models.CharField(max_length=32, default='Unnamed Affiliation')
@@ -12,6 +13,7 @@ class Affiliation(BaseModel):
 	text = models.TextField(blank=True)
 	styling = models.TextField(blank=True)
 	primary = models.BooleanField(default=True)
+	icon = models.FileField(upload_to=getUploadPath, blank=True, default='')
 
 	def __unicode__(self):
 		return u'%s' % (self.name)

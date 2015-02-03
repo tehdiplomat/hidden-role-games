@@ -291,3 +291,9 @@ def roleFormula(game, players, ref, neutralRoles=0, extraRoles=0):
 		pass
 
 	return d
+
+
+# Files
+def getUploadPath(instance, filename, absolute=False):
+	root = settings.MEDIA_ROOT if absolute else ''
+	return "%s%s/%s" % (root, instance.id, filename)

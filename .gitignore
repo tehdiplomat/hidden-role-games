@@ -1,3 +1,4 @@
 *.pyc
 /masq/db.sqlite3
 /masq/masq/local_settings.py
+/masq/cms/media
