@@ -292,6 +292,26 @@ def roleFormula(game, players, ref, neutralRoles=0, extraRoles=0):
 
 	return d
 
+def playerByRoundFormula(game, players, rounds):
+	gameSize = None
+	if game.name == 'Two Rooms and a Boom':
+		if players < 11:
+			gameSize = 'tiny'
+		elif players < 14:
+			gameSize = 'small'
+		elif players < 18:
+			gameSize = 'medium'
+		elif players < 22:
+			gameSize = 'large'
+		elif players >= 22:
+			gameSize = 'huge'
+
+
+	if gameSize:
+		return settings.PLAYERS_BY_ROUND[game.name][gameSize][-rounds]
+
+	return []
+
 
 # Files
 def getUploadPath(instance, filename, absolute=False):

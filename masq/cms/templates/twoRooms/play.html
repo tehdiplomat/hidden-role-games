@@ -26,10 +26,16 @@
 
 {% block content %}
 	<div class="roundPanel panel active">
-		Round #<span class="currentRound">{{ gameSession.currentRound }}</span>
-		Time Remaining: <span class="timeRemaining {% if player.host %}hostTimer{% endif %}">-1</span> seconds
-
-		<br/><br/>
+		<div class="roundLabel">
+			Round #<span class="currentRound">{{ gameSession.currentRound }}</span>
+		</div>
+		<div class="hostageLabel">
+			Hostages: <span class="hostages"></span>
+		</div>
+		<div class="timeLabel">
+			<span class="timeRemaining {% if player.host %}hostTimer{% endif %}">Calculating..</span>
+		</div>
+		
 		{% if player.host %}
 			<button class="startRound">Start Timer</button>
 		{% endif %}

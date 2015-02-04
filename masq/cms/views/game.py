@@ -4,6 +4,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from cms.models import GameSession, Game, Player, Affiliation, Role
+from cms.utils.Utils import playerByRoundFormula
 
 def start(request):
 	games = Game.objects.all()
@@ -108,6 +109,8 @@ def play(request):
 	chosenRoles = (session.roles.all() | Role.objects.filter(game=game, generic=True)).distinct()
 	players = Player.objects.filter(session=session)
 
+	byRound = playerByRoundFormula(game, players.count(), session.rounds)
+
 	folder = game.template if game.template else ''
 	playTemplate = '%splay.html' % folder
 	refTemplate = '%sreference.html' % folder
@@ -122,5 +125,6 @@ def play(request):
 		'player': pl,
 		'affiliation': affiliation,
 		'roundStart': str(session.modified),
-		'roundTime': session.secondsPerRound()
+		'roundTime': session.secondsPerRound(),
+		'byRound': byRound
 	}, context_instance=RequestContext(request))

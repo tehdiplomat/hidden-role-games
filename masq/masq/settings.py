@@ -101,6 +101,15 @@ ROUNDS = {
 	}
 }
 
+PLAYERS_BY_ROUND = {
+	'Two Rooms and a Boom': {
+		'tiny': [ 1, 1, 1 ],			# 6-10
+		'small': [ 2, 2, 2, 1, 1 ], 	# 11-13
+		'medium': [ 3, 2, 2, 1, 1 ],	# 14-17
+		'large': [ 4, 3, 2, 1, 1 ],		# 18-21
+		'huge': [ 5, 4, 3, 2, 1 ]		# 22+
+	}
+}
 
 
 # Pusher for server pushes (Override these values with your api keys in local_settings)

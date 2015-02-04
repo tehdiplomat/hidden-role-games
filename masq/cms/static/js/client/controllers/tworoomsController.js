@@ -187,7 +187,25 @@ require([
 			if (copy.secondsRemaining >= 0) {
 				copy.secondsRemaining--;
 			}
-			$(".timeRemaining").text(copy.secondsRemaining);
+
+			var time;
+			if (copy.secondsRemaining == -1) {
+				time = "Round Over";
+			} else {
+
+				var seconds = copy.secondsRemaining % 60,
+					minutes = Math.floor(copy.secondsRemaining / 60);
+
+				var formatting;
+				if (seconds < 10) {
+					formatting = ":0";
+				} else {
+					formatting = ":";
+				}
+
+				time = minutes + formatting + seconds;
+			}
+			$(".timeRemaining").text(time);
 
 			if (copy.secondsRemaining == 0) {
 				// Alert players!! 
