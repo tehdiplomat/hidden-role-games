@@ -308,9 +308,10 @@ def playerByRoundFormula(game, players, rounds):
 
 
 	if gameSize:
-		return settings.PLAYERS_BY_ROUND[game.name][gameSize][-rounds]
+		l = settings.PLAYERS_BY_ROUND[game.name][gameSize][-rounds:]
+		return ','.join(str(x) for x in l)
 
-	return []
+	return ''
 
 
 # Files

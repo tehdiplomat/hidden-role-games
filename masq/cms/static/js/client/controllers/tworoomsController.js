@@ -131,7 +131,8 @@ require([
 				copy.secondsRemaining = data['secondsRemaining'];
 				copy.session.currentRound = data['round'];
 				$(".timeRemaining").text(copy.secondsRemaining);
-				$(".currentRound").text(copy.session.currentRound);				
+				$(".currentRound").text(copy.session.currentRound);
+				$(".hostages").text(hostages[copy.session.currentRound-1]);		
 				$(".startRound").prop("disabled",true);
 
 			} else {
@@ -150,6 +151,7 @@ require([
 			if (copy.session.getCurrentRound() >= copy.session.getRounds()) {
 				// No more rounds are to be played
 				console.log("This is the last round. Nothing to start anymore.");
+				return;
 			}
 
 			commandData = {
@@ -190,7 +192,14 @@ require([
 
 			var time;
 			if (copy.secondsRemaining == -1) {
-				time = "Round Over";
+				if (copy.session.currentRound == 0) {
+					time = "";
+				} else if (copy.session.currentRound < copy.session.rounds) {
+					time = "Round Over";
+				} else {
+					time = "Game Over";
+				}
+				
 			} else {
 
 				var seconds = copy.secondsRemaining % 60,
@@ -228,6 +237,7 @@ require([
 			// Reloaded page in the middle of a round. Try to calculate time remaining in round.
 			var diffSeconds = (Date.now() - roundStart) / 1000;
 			copy.secondsRemaining = Math.max(-1, Math.floor(roundTime - diffSeconds));
+			$(".hostages").text(hostages[this.session.currentRound-1]); 
 
 			if (copy.secondsRemaining > 0) {
 				$(".startRound").prop("disabled",true);

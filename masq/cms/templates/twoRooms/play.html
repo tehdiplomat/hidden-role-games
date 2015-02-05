@@ -19,6 +19,7 @@
 		var roundStart = Date.parse("{{ roundStart }}");
 		var roundTime = {{ roundTime }};
 		var local = {{ player.id }};
+		var hostages = "{{ byRound }}".split(",");
 	</script>
 {% endblock %}
 
