@@ -229,6 +229,8 @@ require([
 				}
 
 				// TODO Play a sound
+			} else if (copy.secondsRemaining == 60) {
+				$(".minuteWarning")[0].play();
 			}
 
 		}, 1000);
