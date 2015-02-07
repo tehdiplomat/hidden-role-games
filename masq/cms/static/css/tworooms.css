@@ -67,6 +67,7 @@
 .roundPanel {
 	background-image: url("/static/img/stopwatch.png");
 	background-repeat: no-repeat;
+	background-size: contain;
 	height: 311px;
 }
 
@@ -100,21 +101,45 @@
 	width: 200px;
 }
 
-.startRound {
+.timerButtons {
 	position: absolute;
 	top: 235px;
 	left: 220px;
 }
 
-/*
-		<div class="roundLabel">
-			Round #<span class="currentRound">{{ gameSession.currentRound }}</span>
-		</div>
-		<div class="hostageLabel">
-			Hostages to send <span class="hostages"></span>
-		</div>
-		<div class="timeLabel">
-			Time Remaining: <span class="timeRemaining {% if player.host %}hostTimer{% endif %}">-1</span> seconds<br/>
-		</div>
+.sound {
+	display: none;
+}
 
-*/
+@media (max-width: 500px) {
+	.timeLabel {
+		top: 140px;
+		left: 29%;
+		color: white;
+		font-size: 20px;
+		width: 40%
+	}
+
+	.roundLabel {
+		top: 10px;
+		left: 30%;
+		font-size: 14px;
+		width: 40%
+	}
+
+	.hostageLabel {
+		top: 24px;
+		left: 30%;
+		font-size: 14px;
+		width: 40%
+	}
+
+	.timerButtons {
+		top: 220px;
+		left: 25%;
+	}
+
+	.sound {
+		display: inline;
+	}
+}

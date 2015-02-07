@@ -37,9 +37,12 @@
 			<span class="timeRemaining {% if player.host %}hostTimer{% endif %}">Calculating..</span>
 		</div>
 		
-		{% if player.host %}
-			<button class="startRound">Start Timer</button>
-		{% endif %}
+		<div class="timerButtons">
+			{% if player.host %}
+				<button class="startRound">Start Timer</button>
+			{% endif %}
+			<button class="sound">Enable Sound</button>
+		</div>
 	</div>
 	
 	<div class="myPanel panel">
@@ -100,11 +103,11 @@
 		After each player resolves their end game power, everyone should <button class="cardReveal">Reveal your Role</button>
 	</div>
 
-	<audio preload="auto" class="alarm">
+	<audio preload="auto" class="alarm" muted>
 		<source src="{{ STATIC_URL }}media/siren.mp3" />
 	</audio>
 
-	<audio preload="auto" class="minuteWarning">
+	<audio preload="auto" class="minuteWarning" muted>
 		<source src="{{ STATIC_URL }}media/warning.mp3" />
 	</audio> 
 

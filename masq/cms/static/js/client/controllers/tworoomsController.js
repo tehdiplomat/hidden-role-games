@@ -180,6 +180,19 @@ require([
 			activatePanel("cardPanel");
 		});
 
+		$(".sound").click(function() {
+			var alarm = $(".alarm")[0];
+			var warn = $(".minuteWarning")[0];
+			$(this).hide();
+			alarm.play();
+			warn.play();
+
+			setTimeout(function() {
+				alarm.muted = false;
+				warn.muted = false;
+			}, 5000);
+		});
+
 	}
 
 	function TworoomsController_setTimerHandler() {
