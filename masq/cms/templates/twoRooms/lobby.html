@@ -9,10 +9,10 @@
 {% block title %}Lobby{% endblock %}
 
 {% block styles %}
-	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/lobby.css{% if ZC_VERSION %}?v={{ ZC_VERSION }}{% endif %}" />
+	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/{{game.template}}lobby.css{% if ZC_VERSION %}?v={{ ZC_VERSION }}{% endif %}" />
 {% endblock %}
 
-{% block jsModuleName %}lobbyController{% endblock %}
+{% block jsModuleName %}twoRooms/lobbyController{% endblock %}
 
 {% block scripts %}
 	<script>

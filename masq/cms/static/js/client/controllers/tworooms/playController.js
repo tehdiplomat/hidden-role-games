@@ -184,6 +184,8 @@ require([
 			var alarm = $(".alarm")[0];
 			var warn = $(".minuteWarning")[0];
 			$(this).hide();
+			alarm.muted = true;
+			warn.muted = true;
 			alarm.play();
 			warn.play();
 
@@ -206,7 +208,7 @@ require([
 			var time;
 			if (copy.secondsRemaining == -1) {
 				if (copy.session.currentRound == 0) {
-					time = "";
+					time = "Ready?";
 				} else if (copy.session.currentRound < copy.session.rounds) {
 					time = "Round Over";
 				} else {
