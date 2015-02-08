@@ -151,6 +151,10 @@ require([
 			$(".gameRounds").prop("disabled", false);
 			$(".gameRounds[data-rounds='" + num + "']").prop("disabled", true);
 		}
+
+		$(".roleText").click(function() {
+			alert($(this).data('tooltip'));
+		});
 	}
 
 	function LobbyController_setInviteHandler() {
