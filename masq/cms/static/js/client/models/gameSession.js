@@ -66,6 +66,7 @@ define(["./base", "models/role"], function(Base) {
 		"name": "string",
 		"game": "FK-Game",
 		"active": "string",
+		"status": "string",
 		"rounds": "int",
 		"currentRound": "int"
 	};
