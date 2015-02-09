@@ -9,10 +9,10 @@
 {% block title %}Play{% endblock %}
 
 {% block styles %}
-	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/tworooms.css{% if ZC_VERSION %}?v={{ ZC_VERSION }}{% endif %}" />
+	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/{{game.template}}play.css{% if ZC_VERSION %}?v={{ ZC_VERSION }}{% endif %}" />
 {% endblock %}
 
-{% block jsModuleName %}tworoomsController{% endblock %}
+{% block jsModuleName %}{{game.template}}/playController{% endblock %}
 
 {% block scripts %}
 	<script>
@@ -103,11 +103,11 @@
 		After each player resolves their end game power, everyone should <button class="cardReveal">Reveal your Role</button>
 	</div>
 
-	<audio preload="auto" class="alarm" muted>
+	<audio preload="auto" class="alarm">
 		<source src="{{ STATIC_URL }}media/siren.mp3" />
 	</audio>
 
-	<audio preload="auto" class="minuteWarning" muted>
+	<audio preload="auto" class="minuteWarning">
 		<source src="{{ STATIC_URL }}media/warning.mp3" />
 	</audio> 
 

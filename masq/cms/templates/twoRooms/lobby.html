@@ -12,7 +12,7 @@
 	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/{{game.template}}lobby.css{% if ZC_VERSION %}?v={{ ZC_VERSION }}{% endif %}" />
 {% endblock %}
 
-{% block jsModuleName %}twoRooms/lobbyController{% endblock %}
+{% block jsModuleName %}{{game.template}}/lobbyController{% endblock %}
 
 {% block scripts %}
 	<script>
@@ -23,7 +23,7 @@
 	</script>
 {% endblock %}
 
-{% block pageTitle %}Game Session Lobby{% endblock %}
+{% block pageTitle %}Two Rooms Session Lobby{% endblock %}
 
 {% block content %}
 	<div class="lobbyPanel panel active">

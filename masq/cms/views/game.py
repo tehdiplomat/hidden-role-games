@@ -53,8 +53,9 @@ def lobby(request, id=None):
 	elif init == 'rejoin':
 		name = request.GET.get('name', None)
 		pin = request.GET.get('pin', None)
+
 		try:
-			player = Player.objects.get(name=name, pin=pin, session=session[0])
+			player = Player.objects.get(name=name, pin=pin, session=session[0])	
 		except:
 			resp = HttpResponse()
 			resp.status_code = 400
@@ -74,15 +75,18 @@ def lobby(request, id=None):
 		player.browserSession_id = request.session.session_key
 		player.save()
 
+		print "Player %s associated with %s" % (player, player.browserSession_id)
+
 	players = Player.objects.filter(session=session)
 	inviteURL = '%smasq/lobby/%s/?init=join' % (settings.SITE_URL, id)
 
 	folder = g.template if g.template else ''
-	playTemplate = '%splay.html' % folder
+	lobbyTemplate = '%slobby.html' % folder
 	refTemplate = '%sreference.html' % folder
 
-	return render_to_response('lobby.html', {
+	return render_to_response(lobbyTemplate, {
 		'refTemplate': refTemplate,
+		'game': g,
 		'games': game,
 		'gameSessions': session,
 		'player': player,
@@ -90,8 +94,8 @@ def lobby(request, id=None):
 		'affiliations': affiliations,
 		'roles': roles,
 		'inviteURL': inviteURL,
-		'shortRounds': settings.ROUNDS[gameName]['short'],
-		'longRounds': settings.ROUNDS[gameName]['long']
+		'shortRounds': settings.ROUNDS[gameName].get('short', 1),
+		'longRounds': settings.ROUNDS[gameName].get('long', 1)
 	}, context_instance=RequestContext(request))
 
 

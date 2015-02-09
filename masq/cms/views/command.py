@@ -101,7 +101,7 @@ def auth(request):
 	try:
 		pl = Player.objects.get(browserSession=request.session.session_key)
 	except:
-		print "No player found with this session key", request.session.session_key
+		print "Attempting to Authorize: No player found with this session key", request.session.session_key
 		pl = None
 
 	channel_data = {'user_id': socket_id}
