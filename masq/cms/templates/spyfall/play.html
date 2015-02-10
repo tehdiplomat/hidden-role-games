@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% load queryFilters %}
+{% load basicFilters %}
+{% load basicTags %}
+
+{% block body_id %}Play Session{% endblock %}
+
+{% block title %}Play{% endblock %}
+
+{% block styles %}
+	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/{{game.template}}play.css{% if ZC_VERSION %}?v={{ ZC_VERSION }}{% endif %}" />
+{% endblock %}
+
+{% block jsModuleName %}{{game.template}}/playController{% endblock %}
+
+{% block scripts %}
+	<script>
+		var roundStart = Date.parse("{{ roundStart }}");
+		var roundTime = {{ roundTime }};
+		var local = {{ player.id }};
+	</script>
+{% endblock %}
+
+{% block pageTitle %}{{ gameSession.name }}{% endblock %}
+
+{% block content %}
+	<div class="roundPanel panel active">
+		<div class="roundLabel">
+			Round #<span class="currentRound">{{ gameSession.currentRound }}</span>
+		</div>
+		<div class="timeLabel">
+			<span class="timeRemaining {% if player.host %}hostTimer{% endif %}">Calculating..</span>
+		</div>
+		
+		<div class="timerButtons">
+			{% if player.host %}
+				<button class="startRound">Start Timer</button>
+				<button class="endRound">Stop Timer</button>
+			{% endif %}
+			<button class="sound">Enable Sound</button>
+		</div>
+	</div>
+	
+	<div class="myPanel panel">
+		Your Affiliation is: {{ affiliation }} <br/>
+		Your Role is: {{ role.name }} <br/>
+
+		(If not a spy)
+		Ask questions to figure out how the SPY is, but be careful not to give away your location.
+		(If a spy)
+		Listen carefully to determine where you are, but don't let on that you don't know where you are.
+	</div>
+
+	<div class="playerPanel panel">
+		<div class="panelGroup">
+			<div class="subpanel">
+				Player (<span class="playerCount">{{ players.count }}</span>)
+			{% for pl in players %} 
+				<li class="player" data-id="{{pl.id}}">
+					<img src="/static/img/user.png" class="waiting playerIcon" />{{ pl.name }} 
+				</li>
+			{% endfor %}
+			</div>
+		</div>
+	</div>
+
+	<div class="locationPanel panel">
+		<div class="panelGroup">
+			<div class="subpanel activeRoles">
+				Possible Locations  (<span class="roleCount">{{ affiliations.count }}</span>)
+			{% for location in affiliations %}
+				<li class="location" data-id="{{location.id}}">
+					{{ location.name }}
+				</li>
+			{% endfor %}
+				
+			</div>
+		</div>
+	</div>
+
+	<div class="cardPanel panel">
+		<div class="card {{ affiliation.styling }}">
+			<div class="role">{{ role.name }}</div>
+			<div class="avatar"></div>
+			<div class="rules">{{ role.text }}</div>
+			<div class="affiliation">{{ affiliation }} <img class="affiliationIcon" src="{{ affiliation.icon.url }}" /></div>
+		</div>
+	</div>
+
+	<div class="endPanel panel">
+		The round has ended! Figure out who won, and accrue points if you care. If continuing, have the host start a new round.
+
+		{% if player.host %}
+			<button class="startRound">Start Next Round</button>
+		{% endif %}
+	</div>
+
+	<audio preload="auto" class="alarm">
+		<source src="{{ STATIC_URL }}media/siren.mp3" />
+	</audio>
+
+	<audio preload="auto" class="minuteWarning">
+		<source src="{{ STATIC_URL }}media/warning.mp3" />
+	</audio> 
+
+	{% include refTemplate %}
+{% endblock %}
+
+
+{% block menuItems %}
+<li class="menuItem" data-panel="roundPanel">Game Info</li>
+<li class="menuItem" data-panel="myPanel">My Info</li>
+<li class="menuItem" data-panel="playerPanel">Players</li>
+<li class="menuItem" data-panel="locationPanel">Locations</li>
+<li class="menuItem" data-panel="cardPanel">Card Reveal</li>
+<li class="menuItem" data-panel="rulesPanel">Reference</li>
+{% endblock %}
+
+{% block dataBlock %}
+	{% clientMultiData roles %}
+
+	{% clientDataObj  affiliation %}
+	{% clientDataObj  role %}
+	{% clientDataObj  game %}
+	{% clientDataObj  gameSession %}
+	{% clientDataObj  player %}
+{% endblock %}

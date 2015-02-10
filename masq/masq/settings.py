@@ -98,6 +98,10 @@ ROUNDS = {
 	'Two Rooms and a Boom': {
 		'short': 3,
 		'long': 5
+	},
+	'Spyfall': {
+		'short': 1,
+		'long': 5
 	}
 }
 

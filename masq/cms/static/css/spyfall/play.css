@@ -1,0 +1,145 @@
+.panel {
+	display: none;
+}
+
+.active {
+	display: block;
+}
+
+.control {
+	position: absolute;
+	bottom: 1px;
+}
+
+.card {
+	margin-left: 10px;
+	border: 5px groove black;
+	width: 300px;
+	height: 450px;
+	background-color: light-gray;
+}
+
+.blueteam {
+	background-color: #333399;
+}
+
+.redteam {
+	background-color: #DD2200;
+}
+
+.card .role {
+	height: 25px;
+}
+
+.card .avatar {
+	height: 150px;
+}
+
+.card .rules {
+	height: 250px;
+} 
+
+.card .affiliation {
+	height: 25px;
+}
+
+.playerIcon {
+	width: 32px;
+	height: 32px;
+	position: relative;
+	top: 5px;
+}
+
+.playerIcon.active {
+	display: inline;
+}
+
+.playerIcon.waiting {
+	opacity: .2;
+}
+
+.affiliationIcon {
+	width: 24px;
+	height: 24px;
+	float: right;
+}
+
+.roundPanel {
+	background-image: url("/static/img/stopwatch.png");
+	background-repeat: no-repeat;
+	background-size: contain;
+	height: 311px;
+}
+
+.timeLabel {
+	position: absolute;
+	top: 180px;
+	left: 160px;
+	color: white;
+	font-size: 40px;
+	width: 200px;
+	text-align: center;
+}
+
+.roundLabel {
+	position: absolute;
+	top: 10px;
+	left: 160px;
+	color: white;
+	font-size: 18px;
+	text-align: center;
+	width: 200px;
+}
+
+.hostageLabel {
+	position: absolute;
+	top: 34px;
+	left: 160px;
+	color: white;
+	font-size: 18px;
+	text-align: center;
+	width: 200px;
+}
+
+.timerButtons {
+	position: absolute;
+	top: 235px;
+	left: 220px;
+}
+
+.sound {
+	display: none;
+}
+
+@media (max-width: 500px) {
+	.timeLabel {
+		top: 140px;
+		left: 29%;
+		color: white;
+		font-size: 20px;
+		width: 40%
+	}
+
+	.roundLabel {
+		top: 10px;
+		left: 30%;
+		font-size: 14px;
+		width: 40%
+	}
+
+	.hostageLabel {
+		top: 24px;
+		left: 30%;
+		font-size: 14px;
+		width: 40%
+	}
+
+	.timerButtons {
+		top: 220px;
+		left: 25%;
+	}
+
+	.sound {
+		display: inline;
+	}
+}

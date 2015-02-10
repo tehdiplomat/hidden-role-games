@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% load queryFilters %}
+{% load basicFilters %}
+{% load basicTags %}
+
+{% block body_id %}Game Lobby{% endblock %}
+
+{% block title %}Lobby{% endblock %}
+
+{% block styles %}
+	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/{{game.template}}lobby.css{% if ZC_VERSION %}?v={{ ZC_VERSION }}{% endif %}" />
+{% endblock %}
+
+{% block jsModuleName %}{{game.template}}lobbyController{% endblock %}
+
+{% block scripts %}
+	<script>
+		var local = {{ player.id }};
+		var inviteURL = "{{ inviteURL }}";
+	</script>
+{% endblock %}
+
+{% block pageTitle %}Spyfall Session Lobby{% endblock %}
+
+{% block content %}
+	<div class="lobbyPanel panel active">
+		<div class="panelGroup">
+			<div class="gamePanel subpanel">
+			{% with gameSessions|first as session %}
+				Game: {{ session.game.name }}<br/>
+
+				Game Rounds: 
+				<span class="sessionRounds">{{ session.rounds }}</span> 
+			{% if player.host %}
+				<button class="shortRounds gameRounds" data-rounds={{shortRounds}} {% if shortRounds == session.rounds %}disabled{% endif %}>Short Game</button>
+				<button class="longRounds gameRounds" data-rounds={{longRounds}} {% if longRounds == session.rounds %}disabled{% endif %}>Long Game</button> 
+			{% endif %}
+			
+
+				<br/>
+			{% if player.host %}
+				<button class="startSession">Assign Roles</button>
+			{% endif %}
+			{% if session.status == 'active' %}
+				<button class="joinInProgress">Join in Progress</button>
+			{% endif %}
+			{% endwith %}
+			</div>
+
+			<div class="selfPanel subpanel">
+				Name: <input type="text" class="playerName" /><br/>
+				Pin: <input type="text" class="playerPin" /><br/>
+				Host: <input type="checkbox" class="playerHost" disabled /><br/>
+				<button class="editPlayer">Save</button>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="playerPanel panel">
+		<div class="panelGroup">
+			<div class="subpanel">
+				Player (<span class="playerCount">{{ players.count }}</span>)
+			{% for pl in players %} 
+				<li class="player" data-id="{{pl.id}}">
+					<img src="/static/img/user.png" class="waiting playerIcon" />{{ pl.name }} 
+				</li>
+			{% endfor %}
+			</div>
+			<div class="invitePanel subpanel">
+				Have other players scan this QR code to join the game.
+				<div class="qrCode" id="inviteQR"></div>
+			</div>
+		</div>
+	</div>
+
+	{% include refTemplate %}
+{% endblock %}
+
+{% block menuItems %}
+<li class="menuItem" data-panel="lobbyPanel">Game Info</li>
+<li class="menuItem" data-panel="playerPanel">Players</li>
+<li class="menuItem" data-panel="rulesPanel">Reference</li>
+{% endblock %}
+
+{% block dataBlock %}
+	{% clientMultiData games gameSessions players affiliations roles %}
+
+{% endblock %}
