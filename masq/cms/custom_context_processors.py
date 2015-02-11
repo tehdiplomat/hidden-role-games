@@ -59,9 +59,9 @@ def customProcessors(request):
 		usId = ""
 
 	try:
-		ZC_VERSION = settings.ZC_VERSION
+		HRG_VERSION = settings.HRG_VERSION
 	except:
-		ZC_VERSION = ""
+		HRG_VERSION = ""
 
 	return {
 		"request": request,
@@ -72,5 +72,5 @@ def customProcessors(request):
 		"timeChoices": timeChoices,
 		"usId": usId,
 		"TIME_ZONE": settings.TIME_ZONE,
-		"ZC_VERSION": ZC_VERSION
+		"HRG_VERSION": HRG_VERSION
 	}

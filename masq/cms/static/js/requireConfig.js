@@ -19,5 +19,5 @@ require = {
 	}
 };
 if ("MQ_VERSION" in window) {
-	require.urlArgs = "v=" + window.ZC_VERSION;
+	require.urlArgs = "v=" + window.HRG_VERSION;
 }
