@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% load queryFilters %}
+{% load basicFilters %}
+{% load basicTags %}
+
+{% block body_id %}Role Creator{% endblock %}
+
+{% block title %}Role Creator{% endblock %}
+
+{% block styles %}
+	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/roleCreator.css{% if HRG_VERSION %}?v={{ HRG_VERSION }}{% endif %}" />
+{% endblock %}
+
+{% block jsModuleName %}roleCreatorController{% endblock %}
+
+{% block pageTitle %}Create Role Batches{% endblock %}
+
+{% block content %}
+	Game: <select class="gameSelect">
+		<option value="0">--------</option>
+	{% for game in games %}
+		<option value="{{ game.id }}">{{ game.name }}</option>
+	{% endfor %}
+	</select>
+	<br/>
+	Affiliation: <select class="affiliationSelect">
+		<option value="0">--------</option>
+	{% for affiliation in affiliations %}
+		<option class="game_{{affiliation.game_id}} affiliation" value="{{ affiliation.id }}" disabled>{{ affiliation.name }}</option>
+	{% endfor %}
+	</select>
+	<br/>
+
+	<input class="role"> <input class="role"><br/>
+	<input class="role"> <input class="role"><br/>
+	<input class="role"> <input class="role"><br/>
+	<input class="role"> <input class="role"><br/>
+
+	<button class="createRoles">Create Roles</button> - <button class="clearRoles">Clear Roles</button>
+
+{% endblock %}
+
+{% block dataBlock %}
+	{% clientMultiData games affiliations %}
+{% endblock %}
