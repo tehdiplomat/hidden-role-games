@@ -158,7 +158,6 @@ require([
 				'model': 'system',
 				'action': 'startRound',
 				'currentRound': copy.session.getCurrentRound(),
-				//'roles': roleList.join(),
 				'session': copy.session.getId()
 			}
 			Utils_sendCommand({'data': commandData}, function() {

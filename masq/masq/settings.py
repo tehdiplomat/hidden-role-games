@@ -123,6 +123,6 @@ PUSHER_SECRET = 'abcdef'
 
 try:
 	from local_settings import *
-	print "Local settings imported..."
+	#print "Local settings imported..."
 except:
 	pass

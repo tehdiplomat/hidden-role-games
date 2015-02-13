@@ -17,6 +17,9 @@ class Game(BaseModel):
 		if self.name == 'Two Rooms and a Boom':
 			return (totalRounds + 1 - round) * 60
 
+		elif self.name == 'Spyfall':
+			return 8 * 60
+
 		return 0
 
 	class Meta:

@@ -217,6 +217,28 @@ def queryExpressResolutions(model):
 
 	return model.objects.filter(reduce(OR, qs))
 
+def assignAffiliation(session, Affiliation, Role, players):
+	game = session.game
+	aff = Affiliation.objects.filter(game=game, primary=False).order_by('?')[0]
+	roles = Role.objects.filter(affiliation=aff).order_by('?')
+	genericRoles = Role.objects.filter(game=game, generic=True)
+
+	allRoles = list(genericRoles) + list(roles[:players.count()-1])
+
+	pl = list(players)
+
+	print "Player Count", len(pl), "Role Count", len(allRoles)
+
+	# Randomize roles to players
+	shuffle(pl)
+	shuffle(allRoles)
+
+	for p, r in zip(pl, allRoles):
+		p.role = r
+		p.save()
+
+	return False
+
 def assignRoles(session, chosenRoles, genericRoles, players, extraRoles=0):
 	# Extra roles is for hiding cards will mostly ignore for now
 	specialRoles = chosenRoles.filter(generic=False)
@@ -264,14 +286,17 @@ def assignRoles(session, chosenRoles, genericRoles, players, extraRoles=0):
 		print "Player: ", p, "Role: ", p.role, "Room:", p.room
 		p.save()
 
+	return False
+
 def affiliateReference(game):
 	ref = {}
 	if game.name == 'Two Rooms and a Boom':
 		ref['good'] = 'Blue Team'
 		ref['evil'] = 'Red Team'
 
-	elif game.name == 'Resistance':
-		pass
+	elif game.name == 'Spyfall':
+		ref['good'] = 'Location'
+		ref['evil'] = 'Unknown Location'
 
 	return ref
 
@@ -287,8 +312,9 @@ def roleFormula(game, players, ref, neutralRoles=0, extraRoles=0):
 		d['Unaffiliated'] = neutralRoles + bonusNeutral
 		d[ref['good']] = d[ref['evil']] = nonNeutrals / 2
 
-	elif game.name == 'Resistance':
-		pass
+	elif game.name == 'Spyfall':
+		d[ref['good']] = players - 1
+		d[ref['evil']] = 1
 
 	return d
 

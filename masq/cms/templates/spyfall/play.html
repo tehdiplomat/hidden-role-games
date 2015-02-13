@@ -43,13 +43,14 @@
 	</div>
 	
 	<div class="myPanel panel">
-		Your Affiliation is: {{ affiliation }} <br/>
+		Your Location is: {{ affiliation }} <br/>
 		Your Role is: {{ role.name }} <br/>
 
-		(If not a spy)
-		Ask questions to figure out how the SPY is, but be careful not to give away your location.
-		(If a spy)
+		{% if role.name == "Spy" %}
 		Listen carefully to determine where you are, but don't let on that you don't know where you are.
+		{% else %}
+		Ask questions to figure out how the SPY is, but be careful not to give away your location.
+		{% endif %}
 	</div>
 
 	<div class="playerPanel panel">
@@ -84,7 +85,7 @@
 			<div class="role">{{ role.name }}</div>
 			<div class="avatar"></div>
 			<div class="rules">{{ role.text }}</div>
-			<div class="affiliation">{{ affiliation }} <img class="affiliationIcon" src="{{ affiliation.icon.url }}" /></div>
+			<div class="affiliation">{{ affiliation }} {% if affiliation.icon %}<img class="affiliationIcon" src="{{ affiliation.icon.url }}" />{% endif %}</div>
 		</div>
 	</div>
 

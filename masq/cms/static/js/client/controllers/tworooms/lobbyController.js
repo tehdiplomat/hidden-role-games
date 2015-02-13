@@ -108,7 +108,6 @@ require([
 			commandData = {
 				'model': 'system',
 				'action': 'startSession',
-				//'roles': roleList.join(),
 				'session': copy.session.getId()
 			}
 			Utils_sendCommand({'data': commandData}, function() {

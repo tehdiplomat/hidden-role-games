@@ -110,6 +110,7 @@ def play(request):
 	game = session.game
 	role = pl.role
 	affiliation = role.affiliation
+	affiliations = Affiliation.objects.filter(game=game, primary=False)
 	chosenRoles = (session.roles.all() | Role.objects.filter(game=game, generic=True)).distinct()
 	players = Player.objects.filter(session=session)
 
@@ -128,7 +129,17 @@ def play(request):
 		'players': players,
 		'player': pl,
 		'affiliation': affiliation,
+		'affiliations': affiliations,
 		'roundStart': str(session.modified),
 		'roundTime': session.secondsPerRound(),
 		'byRound': byRound
+	}, context_instance=RequestContext(request))
+
+def roleCreator(request):
+	games = Game.objects.all()
+	affiliations = Affiliation.objects.all()
+
+	return render_to_response('roleCreator.html', {
+		'games': games,
+		'affiliations': affiliations
 	}, context_instance=RequestContext(request))

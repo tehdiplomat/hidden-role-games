@@ -7,8 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from cms.models import GameSession, Player, Role
-from cms.utils.Utils import assignRoles
+from cms.models import GameSession, Player, Role, Affiliation
+from cms.utils.Utils import assignRoles, assignAffiliation
 
 def command(request):
 	print "Command me!"
@@ -44,12 +44,17 @@ def startSession(data):
 	#roleIds = data.get('roles', '').split(',')
 	#print data.get('roles', [])
 	players = Player.objects.filter(session=session)
-	chosenRoles = session.roles.all()
-	genericRoles = Role.objects.filter(game=session.game, generic=True)
+	if data.get('assignAffiliation', False):
+		if assignAffiliation(session, Affiliation, Role, players):
+			return HttpResponseBadRequest("Failed to assign affiliations, missing roles?")
+		
+	else:
+		chosenRoles = Role.objects.all()
+		genericRoles = Role.objects.filter(game=session.game, generic=True)
 
-	#print "About to assign roles"
-	if assignRoles(session, chosenRoles, genericRoles, players):
-		return HttpResponseBadRequest("Failed to assign roles, mismatched teams?")
+		#print "About to assign roles"
+		if assignRoles(session, chosenRoles, genericRoles, players):
+			return HttpResponseBadRequest("Failed to assign roles, mismatched teams?")
 
 	session.status=GameSession.STATUS_ACTIVE
 	session.save()
