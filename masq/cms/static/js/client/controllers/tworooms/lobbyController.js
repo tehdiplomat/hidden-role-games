@@ -118,7 +118,7 @@ require([
 
 
 		$(".joinInProgress").click(function() {
-			window.location.href = '/masq/play';
+			window.location.href = '/masq/play?session=' + copy.session.id;
 		});
 
 		$(".shortRounds").click(function() {
@@ -237,7 +237,7 @@ require([
 			
 			if (data['action'] == 'rolesAssigned') {
 				// Is that allowed? Or do we have to just show a button for people to push?
-				window.location.href = '/masq/play';
+				window.location.href = '/masq/play?session=' + copy.session.id;
 			} else if (data['action'] == 'roundsChanged') {
 				$(".sessionRounds").text(data['rounds']);
 			} else {

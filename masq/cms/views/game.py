@@ -3,6 +3,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+from django.core.exceptions import MultipleObjectsReturned
 from cms.models import GameSession, Game, Player, Affiliation, Role
 from cms.utils.Utils import playerByRoundFormula
 
@@ -102,14 +103,16 @@ def lobby(request, id=None):
 def play(request):
 	try:
 		pl = Player.objects.get(browserSession=request.session.session_key)
-	except:
+	except MultipleObjectsReturned as e:
+		print "Multiple players found. Attempting to narrow down session key", request.session.session_key
+		if 'session' in request.GET:
+			pl = Player.objects.get(browserSession=request.session.session_key, session=request.GET.get('session'))
+		else:
+			return HttpResponseBadRequest("Multiple players found. Unable to determine exact player.")
+
+	except ObjectDoesNotExist as e:
 		print "No player found with this session key", request.session.session_key
-		pl = None
-
-	if not pl:
-		# TODO Improve handling for "Observing" non-players
-		return HttpResponseBadRequest("Status not set to Lobby. Can't start a session that's already been started.")
-
+		return HttpResponseBadRequest("No player found with this session key")
 
 	session = pl.session
 	game = session.game

@@ -24,6 +24,7 @@ def customProcessors(request):
 	return {
 		"request": request,
 		"curPage": curPage,
+		"Pusher": settings.PUSHER_APP,
 		"GET": request.GET,
 		"usId": usId,
 		"HRG_VERSION": HRG_VERSION
