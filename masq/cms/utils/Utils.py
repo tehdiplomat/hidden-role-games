@@ -156,6 +156,8 @@ def queryExpressResolutions(model):
 	return model.objects.filter(reduce(OR, qs))
 
 def assignAffiliation(session, Affiliation, Role, players):
+	# This is used in SpyFall - 
+	# Choose a random affiliation (Location), and assign roles that matches that affiliation + Spy
 	game = session.game
 	aff = Affiliation.objects.filter(game=game, primary=False).order_by('?')[0]
 	roles = Role.objects.filter(affiliation=aff).order_by('?')
@@ -175,9 +177,10 @@ def assignAffiliation(session, Affiliation, Role, players):
 		p.role = r
 		p.save()
 
-	return False
+	return True
 
 def assignRoles(session, chosenRoles, genericRoles, players, extraRoles=0):
+	# This is used in Two Rooms - Take chosen roles and create a formula to assign
 	# Extra roles is for hiding cards will mostly ignore for now
 	specialRoles = chosenRoles.filter(generic=False)
 	neutrals = specialRoles.filter(affiliation__isnull=True)
@@ -195,7 +198,7 @@ def assignRoles(session, chosenRoles, genericRoles, players, extraRoles=0):
 			if matched < count:
 				# This shouldn't happen, but if it does we need to add "generic" Neutrals, which don't really exist
 				# So for now just bail out
-				return False
+				return True
 		else:
 			matched = specialRoles.filter(affiliation__name=formula).count()
 			leftover = count - matched
@@ -224,7 +227,7 @@ def assignRoles(session, chosenRoles, genericRoles, players, extraRoles=0):
 		print "Player: ", p, "Role: ", p.role, "Room:", p.room
 		p.save()
 
-	return False
+	return True
 
 def affiliateReference(game):
 	ref = {}

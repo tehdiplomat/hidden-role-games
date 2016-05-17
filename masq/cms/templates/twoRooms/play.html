@@ -94,7 +94,7 @@
 			<div class="role">{{ role.name }}</div>
 			<div class="avatar"></div>
 			<div class="rules">{{ role.text }}</div>
-			<div class="affiliation">{{ affiliation }} <img class="affiliationIcon" src="{{ affiliation.icon.url }}" /></div>
+			<div class="affiliation">{{ affiliation }} {% if affiliation.icon %}<img class="affiliationIcon" src="{{ affiliation.icon.url }}" />{% endif %}</div>
 		</div>
 	</div>
 

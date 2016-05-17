@@ -27,7 +27,7 @@ def command(request):
 	else:
 		return HttpResponseBadRequest("Unknown command action.")
 
-	if resp == None:
+	if resp is None:
 		resp = HttpResponse()
 		resp.status_code = 200
 		resp.content = 'HOOORAY'
@@ -45,15 +45,15 @@ def startSession(data):
 	#print data.get('roles', [])
 	players = Player.objects.filter(session=session)
 	if data.get('assignAffiliation', False):
-		if assignAffiliation(session, Affiliation, Role, players):
+		if not assignAffiliation(session, Affiliation, Role, players):
 			return HttpResponseBadRequest("Failed to assign affiliations, missing roles?")
 		
 	else:
-		chosenRoles = Role.objects.all()
+		chosenRoles = session.roles.all()
 		genericRoles = Role.objects.filter(game=session.game, generic=True)
 
 		#print "About to assign roles"
-		if assignRoles(session, chosenRoles, genericRoles, players):
+		if not assignRoles(session, chosenRoles, genericRoles, players):
 			return HttpResponseBadRequest("Failed to assign roles, mismatched teams?")
 
 	session.status=GameSession.STATUS_ACTIVE
@@ -63,7 +63,7 @@ def startSession(data):
 	#print "Pre push"
 	push = pusher.Pusher(app_id=settings.PUSHER_APP, key=settings.PUSHER_KEY, secret=settings.PUSHER_SECRET)
 
-	push['presence-lobby'+sess].trigger('game', {'message': 'Game session is starting', 'action': 'rolesAssigned' })
+	push.trigger('presence-lobby'+sess, 'game', {'message': 'Game session is starting', 'action': 'rolesAssigned' })
 	#print "Post push"
 
 	return None
@@ -89,7 +89,7 @@ def startRound(data):
 
 	push = pusher.Pusher(app_id=settings.PUSHER_APP, key=settings.PUSHER_KEY, secret=settings.PUSHER_SECRET)
 
-	push['presence-game'+sess].trigger('game', resp)
+	push.trigger('presence-game'+sess, 'game', resp)
 	#print "Post push"
 
 	return None
@@ -117,8 +117,8 @@ def auth(request):
 
 	p = pusher.Pusher(app_id=settings.PUSHER_APP, key=settings.PUSHER_KEY, secret=settings.PUSHER_SECRET)
 
-	auth = p[channel_name].authenticate(socket_id, channel_data)
-	json_data = json.dumps(auth)
+	authtxt = p.authenticate(channel_name, socket_id, channel_data)
+	json_data = json.dumps(authtxt)
 
 	#return JsonResponse(auth)
 	return HttpResponse(json_data)
