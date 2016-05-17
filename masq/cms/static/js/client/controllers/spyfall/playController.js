@@ -10,7 +10,7 @@ require([
 	],
 	function(BaseController) {
 
-	function TworoomsController() {
+	function SpyfallController() {
 		BaseController.call(this);
 
 		this.fieldsToLoad = ["games", "gameSessions", "players", "affiliations", "roles"];
@@ -23,7 +23,7 @@ require([
 		
 	}
 
-	function TworoomsController_setHandlers() {
+	function SpyfallController_setHandlers() {
 		this.setGenericHandlers();
 		if (!this.initiateLocalPlayer()) 
 			return;
@@ -35,7 +35,7 @@ require([
 		this.setTimerHandler();
 	}
 
-	function TworoomsController_initiateLocalPlayer() {
+	function SpyfallController_initiateLocalPlayer() {
 		// I'm not sure I need this function at all I think
 		if (local) {
 			window.localStorage['localId'] = local;
@@ -56,7 +56,7 @@ require([
 		return true;
 	}
 
-	function TworoomsController_setDomState() {
+	function SpyfallController_setDomState() {
 		// TODO Check for Player presence in the push server
 
 
@@ -70,7 +70,7 @@ require([
 		this.updateCounts();
 	}
 
-	function TworoomsController_roleActivation(roleDom, flag, update) {
+	function SpyfallController_roleActivation(roleDom, flag, update) {
 		// Activate when flag = true
 		// Deactivate when flag = falsa
 		if (flag) {
@@ -88,14 +88,14 @@ require([
 		}
 	}
 
-	function TworoomsController_updateCounts() {
+	function SpyfallController_updateCounts() {
 		$(".roleCount", ".inactiveRoles").text($("li", ".inactiveRoles").length);
 		$(".roleCount", ".activeRoles").text($("li", ".activeRoles").length);
 
 		$(".playerCount", ".playerPanel").text($("li", ".playerPanel").length);
 	}
 
-	function TworoomsController_setPushHandlers() {
+	function SpyfallController_setPushHandlers() {
 		var copy = this;
 		this.channel.bind('pusher:subscription_succeeded', function() {
 			copy.channel.members.each(function(member) {
@@ -141,7 +141,7 @@ require([
 		});
 	}
 
-	function TworoomsController_setPanelControllers() {
+	function SpyfallController_setPanelControllers() {
 		var copy = this;
 
 		$(".startRound").click(function() {
@@ -196,7 +196,7 @@ require([
 
 	}
 
-	function TworoomsController_setTimerHandler() {
+	function SpyfallController_setTimerHandler() {
 		var copy = this;
 
 		setInterval(function() {
@@ -271,16 +271,16 @@ require([
 		$("."+panel).addClass("active");
 	}
 
-	TworoomsController.prototype = new BaseController;
-	TworoomsController.prototype.constructor = TworoomsController;
-	TworoomsController.prototype.setHandlers = TworoomsController_setHandlers;
-	TworoomsController.prototype.initiateLocalPlayer = TworoomsController_initiateLocalPlayer;
-	TworoomsController.prototype.setDomState = TworoomsController_setDomState;
-	TworoomsController.prototype.roleActivation = TworoomsController_roleActivation;
-	TworoomsController.prototype.updateCounts = TworoomsController_updateCounts;
-	TworoomsController.prototype.setPushHandlers = TworoomsController_setPushHandlers;
-	TworoomsController.prototype.setPanelControllers = TworoomsController_setPanelControllers;
+	SpyfallController.prototype = new BaseController;
+	SpyfallController.prototype.constructor = SpyfallController;
+	SpyfallController.prototype.setHandlers = SpyfallController_setHandlers;
+	SpyfallController.prototype.initiateLocalPlayer = SpyfallController_initiateLocalPlayer;
+	SpyfallController.prototype.setDomState = SpyfallController_setDomState;
+	SpyfallController.prototype.roleActivation = SpyfallController_roleActivation;
+	SpyfallController.prototype.updateCounts = SpyfallController_updateCounts;
+	SpyfallController.prototype.setPushHandlers = SpyfallController_setPushHandlers;
+	SpyfallController.prototype.setPanelControllers = SpyfallController_setPanelControllers;
 
-	TworoomsController.prototype.setTimerHandler = TworoomsController_setTimerHandler;
-	new TworoomsController();
+	SpyfallController.prototype.setTimerHandler = SpyfallController_setTimerHandler;
+	new SpyfallController();
 });

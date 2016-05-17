@@ -6,4 +6,4 @@ from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 
 def index(request):
-	return redirect('/cms/join')
+	return redirect('/masq/start')
