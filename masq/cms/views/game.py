@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
@@ -105,6 +105,11 @@ def play(request):
 	except:
 		print "No player found with this session key", request.session.session_key
 		pl = None
+
+	if not pl:
+		# TODO Improve handling for "Observing" non-players
+		return HttpResponseBadRequest("Status not set to Lobby. Can't start a session that's already been started.")
+
 
 	session = pl.session
 	game = session.game

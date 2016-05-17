@@ -1,8 +1,5 @@
 import calendar
-import subprocess
 import json
-import urllib2
-import urllib
 
 from django.conf import settings
 from django.core import serializers
@@ -14,10 +11,7 @@ from django.db.models import Q
 from datetime import datetime
 from operator import __or__ as OR
 from random import shuffle
-from uuid import getnode as get_mac
 
-SIOCGIFCONF = 0x8912  #define SIOCGIFCONF
-BYTES = 4096          # Simply define the byte size
 def UsersToJson(objects):
 	if hasattr(objects, "select_related"):
 		objects = objects.select_related("groups")
@@ -90,23 +84,6 @@ def valueListToJson(objects, model, pk='id'):
 		'fields': safeJsonDatesDict(o)
 	} for o in objects])
 
-def getMacAddress():
-	macInt = get_mac()
-	# convert from int to a 12-digit hex string
-	macHex = ""
-	# first without colons
-	for i in range(11, -1, -1):
-		macHex = hex(macInt%16)[2:-1] + macHex
-		macInt/=16
-
-	#now insert colons
-	macStr = ""
-	for i in range(0, 12, 2):
-		macStr += macHex[i:i+2] + ":"
-	macStr = macStr[:-1]
-
-	return macStr
-
 def convertToTimestamp(sqlDateTime):
 	return int(calendar.timegm(sqlDateTime.utctimetuple()))
 
@@ -152,45 +129,6 @@ def jsonWithDates(obj, extended=False):
 			raise TypeError, 'Object of type %s with value of %s is not JSON serializable (error with type %s)' % (type(obj), repr(obj), type(o))
 
 	return json.dumps(obj, default=extraHandler)
-
-def sendUpdateToDevices(action, devices, user):
-	from nyse.models.Log import Log
-	args = list()
-	args.append("bash")
-	
-	commandLocation = '/home/zignage/nyse'
-	
-	if settings.ROOT_FILE_DIR:
-		commandLocation = settings.ROOT_FILE_DIR
-		
-	commandLocation = "%s%s" % (commandLocation, "server/nyse/scripts/sendCommandToDevice.ksh")
-		
-	args.append(commandLocation)
-	args.append(action)
-	
-	for d in devices:
-		# Add Logs
-		l = Log()
-		l.object_id = d.id
-		l.content_type = ContentType.objects.get_for_model(d)
-		l.user = user
-		l.type = action
-		l.desc = l.get_type_display()
-		l.save()
-		# Append arguments
-		args.append(d.name)
-		args.append(d.ip)
-	
-	print args
-	pid = subprocess.Popen(args).pid
-	print "Process Id : {0}".format(pid)
-
-def readLog(device):
-	fileName = "%s%s.zignage_browser_log" % (settings.BASE_LOG_DIR, device.name)
-	file = open(fileName, 'r')
-	fileContents = file.read()
-	file.close()
-	return fileContents
 
 def currentSiteUrl():
 	"""Returns fully qualified URL (no trailing slash) for the current site."""

@@ -1,5 +1,3 @@
-# Version info $Id: queryFilters.py 8603 2013-02-13 21:11:06Z chris $
-
 from django import template
 
 register = template.Library()
@@ -20,11 +18,3 @@ def orderBy(querySet, field):
 		return querySet.order_by(*fields)
 	else:
 		return querySet
-
-@register.filter(name='getLogs')
-def getLogs(room, all_logs):
-	return all_logs.filter(room=room).order_by("-time")
-
-@register.filter(name='hasMultipleLogs')
-def hasMultipleLogs(room, all_logs):
-	return all_logs.filter(room=room).count() > 1
