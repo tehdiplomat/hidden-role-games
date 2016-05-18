@@ -1,0 +1,15 @@
+Typical setup:
+
+1) Setup a virtualenv for your environment 
+2) Activate env
+3) pip install masq/requirements.txt
+4) ./manage.py loaddata initial.json
+5) mv local_settings.py.sample local_settings.py
+6) Update local_settings.py with appropriate settings for server name, Pusher account, database overrides, etc.
+
+
+
+
+For a local game, feel free to just use ./manage runserver 0.0.0.0:8000
+For a hosted game, hook up the WSGI script to your web server of choice. 
+

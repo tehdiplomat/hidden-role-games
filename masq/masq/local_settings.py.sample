@@ -1,0 +1,5 @@
+#SITE_URL = 'http://testserver:8000/'
+
+#PUSHER_APP = ''
+#PUSHER_KEY = ''
+#PUSHER_SECRET = ''

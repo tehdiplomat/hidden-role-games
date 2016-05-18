@@ -11,6 +11,8 @@ require([
 		"models/player"
 	],
 	function(BaseController) {
+	// Refactor most of this controllers up a level
+	// Allow for better inheritance use + generic controllers when needed
 
 	function LobbyController() {
 		BaseController.call(this);
@@ -71,7 +73,7 @@ require([
 					alert("Failed to update your player change")
 				} else {
 					alert("Updated!");
-					// Update all instances of this players name 
+					// TODO Change all these awkward text updates with data binding of models
 					$(".player[data-id='" + copy.player.getId() + "'] span").text(copy.player.getName());
 				}
 			}, changedFields: fields});

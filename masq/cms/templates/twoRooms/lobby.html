@@ -12,7 +12,7 @@
 	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/{{game.template}}lobby.css{% if HRG_VERSION %}?v={{ HRG_VERSION }}{% endif %}" />
 {% endblock %}
 
-{% block jsModuleName %}{{game.template}}/lobbyController{% endblock %}
+{% block jsModuleName %}{{game.template}}lobbyController{% endblock %}
 
 {% block scripts %}
 	<script>
