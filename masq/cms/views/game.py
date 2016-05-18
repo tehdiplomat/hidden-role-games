@@ -20,8 +20,8 @@ def start(request):
 	}, context_instance=RequestContext(request))
 
 def lobby(request, id=None):
-	if not request.session.get('has_session'):
-		request.session['has_session'] = True
+	#if not request.session.get('has_session'):
+	#	request.session['has_session'] = True
 	
 	session = GameSession.objects.filter(id=id)
 
@@ -31,32 +31,31 @@ def lobby(request, id=None):
 		resp.content = 'Game Session for %s not found' % id
 		return resp
 
-	game = Game.objects.filter(gamesession__in=session)
+	sess = session[0]
+	game = sess.game
 	affiliations = Affiliation.objects.filter(game=game)
 	roles = Role.objects.filter(game=game, generic=False)
 
 	init = request.GET.get('init', None)
 	player = None
-
-	g = list(game[:1])[0]
-	gameName = g.name
+	gameName = game.name
 
 	if init == 'host':
 		# Should this really be a get or create?
-		player = Player.objects.get_or_create(session=session[0], host=True)[0]
+		player, created = Player.objects.get_or_create(session=sess, host=True)
 
 	elif init == 'join':
 		player = Player()
-		player.session = session[0]
+		player.session = sess
 		player.host = False
-		player.save()
+		#player.save()
 
 	elif init == 'rejoin':
 		name = request.GET.get('name', None)
 		pin = request.GET.get('pin', None)
 
 		try:
-			player = Player.objects.get(name=name, pin=pin, session=session[0])	
+			player = Player.objects.get(name=name, pin=pin, session=sess)	
 		except:
 			resp = HttpResponse()
 			resp.status_code = 400
@@ -78,17 +77,17 @@ def lobby(request, id=None):
 
 		print "Player %s associated with %s" % (player, player.browserSession_id)
 
-	players = Player.objects.filter(session=session)
+	players = Player.objects.filter(session=sess)
 	inviteURL = '%smasq/lobby/%s/?init=join' % (settings.SITE_URL, id)
 
-	folder = g.template if g.template else ''
+	folder = game.template if game.template else ''
 	lobbyTemplate = '%slobby.html' % folder
 	refTemplate = '%sreference.html' % folder
 
 	return render_to_response(lobbyTemplate, {
 		'refTemplate': refTemplate,
-		'game': g,
-		'games': game,
+		'game': game,
+		'games': Game.objects.filter(id=sess.game_id),
 		'gameSessions': session,
 		'player': player,
 		'players': players,
@@ -106,7 +105,7 @@ def play(request):
 	except MultipleObjectsReturned as e:
 		print "Multiple players found. Attempting to narrow down session key", request.session.session_key
 		if 'session' in request.GET:
-			pl = Player.objects.get(browserSession=request.session.session_key, session=request.GET.get('session'))
+			pl = Player.objects.get(browserSession=request.session.session_key, session=request.GET.get('session', None))
 		else:
 			return HttpResponseBadRequest("Multiple players found. Unable to determine exact player.")
 

@@ -5,7 +5,6 @@ from cms.models.Player import Player, PlayerSerializer
 class PlayerList(generics.ListCreateAPIView):
 	queryset = Player.objects.all()
 	serializer_class = PlayerSerializer
-	filter_fields = ( 'online', )
 
 
 class PlayerDetail(generics.RetrieveUpdateDestroyAPIView):

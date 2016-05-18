@@ -11,7 +11,7 @@ from cms.models import GameSession, Player, Role, Affiliation
 from cms.utils.Utils import assignRoles, assignAffiliation
 
 def command(request):
-	print "Command me!"
+	#print "Command me!"
 	data = request.GET
 
 	action = data.get('action', None)
@@ -40,9 +40,6 @@ def startSession(data):
 	if session.status != GameSession.STATUS_LOBBY:
 		return HttpResponseBadRequest("Status not set to Lobby. Can't start a session that's already been started.")
 
-	#print "Retrieving things"
-	#roleIds = data.get('roles', '').split(',')
-	#print data.get('roles', [])
 	players = Player.objects.filter(session=session)
 	if data.get('assignAffiliation', False):
 		if not assignAffiliation(session, Affiliation, Role, players):

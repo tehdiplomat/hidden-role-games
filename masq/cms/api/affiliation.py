@@ -6,7 +6,6 @@ class AffiliationList(generics.ListCreateAPIView):
 	queryset = Affiliation.objects.all()
 	serializer_class = AffiliationSerializer
 	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-	filter_fields = ( 'online', )
 
 
 class AffiliationDetail(generics.RetrieveUpdateDestroyAPIView):

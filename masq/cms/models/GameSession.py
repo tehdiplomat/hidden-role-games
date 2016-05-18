@@ -35,7 +35,7 @@ class GameSession(BaseModel):
 	class Meta:
 		app_label = 'cms'
 		verbose_name_plural = 'gameSessions'
-		ordering = ['name']
+		ordering = ['status', 'game', 'name']
 
 class GameSessionAdmin(admin.ModelAdmin):
 	list_display = ['id', 'name', 'game', 'status', 'currentRound', 'rounds']

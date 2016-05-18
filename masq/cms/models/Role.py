@@ -40,7 +40,7 @@ class Role(BaseModel):
 	class Meta:
 		app_label = 'cms'
 		verbose_name_plural = 'roles'
-		ordering = ['name']
+		ordering = ['game', 'name']
 
 class RoleAdmin(admin.ModelAdmin):
 	list_display = ['id', 'name', 'game', 'affiliation', 'generic', 'required']

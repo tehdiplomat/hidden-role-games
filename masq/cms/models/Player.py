@@ -20,6 +20,7 @@ class Player(BaseModel):
 	host = models.BooleanField(default=False)
 	room = models.PositiveSmallIntegerField(default=0)
 
+	# Browser Session variable resets on a rejoin 
 	browserSession = models.ForeignKey(Session, default=None, blank=True, null=True, on_delete=models.SET_NULL)
 
 	
@@ -29,7 +30,7 @@ class Player(BaseModel):
 	class Meta:
 		app_label = 'cms'
 		verbose_name_plural = 'players'
-		ordering = ['name']
+		ordering = ['session', 'name']
 
 class PlayerAdmin(admin.ModelAdmin):
 	list_display = ['id', 'name', 'session', 'role', 'room']

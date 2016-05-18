@@ -21,7 +21,7 @@ class Affiliation(BaseModel):
 	class Meta:
 		app_label = 'cms'
 		verbose_name_plural = 'affiliations'
-		ordering = ['name']
+		ordering = ['game', 'name']
 
 class AffiliationAdmin(admin.ModelAdmin):
 	list_display = ['id', 'name', 'game', 'primary']
