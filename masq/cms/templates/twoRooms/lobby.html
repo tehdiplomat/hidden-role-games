@@ -30,7 +30,7 @@
 		<div class="panelGroup">
 			<div class="gamePanel subpanel">
 			{% with gameSessions|first as session %}
-				Game: {{ session.game.name }}<br/>
+				Game: {{ game.name }}<br/>
 
 				Game Rounds: 
 				<span class="sessionRounds">{{ session.rounds }}</span> 
@@ -67,7 +67,7 @@
 				Player (<span class="playerCount">{{ players.count }}</span>)
 			{% for pl in players %} 
 				<li class="player" data-id="{{pl.id}}">
-					<img src="/static/img/user.png" class="waiting playerIcon" />{{ pl.name }} 
+					<img src="/static/img/user.png" class="waiting playerIcon" /><span>{{ pl.name }}</span>
 				</li>
 			{% endfor %}
 			</div>

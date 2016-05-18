@@ -71,6 +71,8 @@ require([
 					alert("Failed to update your player change")
 				} else {
 					alert("Updated!");
+					// Update all instances of this players name 
+					$(".player[data-id='" + copy.player.getId() + "'] span").text(copy.player.getName());
 				}
 			}, changedFields: fields});
 		});
@@ -118,7 +120,8 @@ require([
 
 
 		$(".joinInProgress").click(function() {
-			window.location.href = '/masq/play?session=' + copy.session.id;
+			// Pass along session id just in case we need to differentiate which Player we have
+			window.location.href = '/masq/play?session=' + copy.session.getId();
 		});
 
 		$(".shortRounds").click(function() {
@@ -237,7 +240,7 @@ require([
 			
 			if (data['action'] == 'rolesAssigned') {
 				// Is that allowed? Or do we have to just show a button for people to push?
-				window.location.href = '/masq/play?session=' + copy.session.id;
+				window.location.href = '/masq/play?session=' + copy.session.getId();
 			} else if (data['action'] == 'roundsChanged') {
 				$(".sessionRounds").text(data['rounds']);
 			} else {
